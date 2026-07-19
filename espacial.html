@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESPACIO MÉXICO · Módulo Espacial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E17;
+    --surface:#131A2A;
+    --line:#232D42;
+    --text:#E9EDF5;
+    --text-dim:#8B93A7;
+    --text-faint:#4E5871;
+    --ciencias:#33D6A6;
+    --espacial:#7C5CFF;
+    --aero:#2FA8FF;
+    --auto:#FF6A3D;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  .grid-bg{
+    position:fixed; inset:0; z-index:0;
+    background-image: linear-gradient(rgba(124,92,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.04) 1px, transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 85%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 85%);
+    pointer-events:none;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
+  
+  nav{display:flex; align-items:center; justify-content:space-between; padding:26px 0;}
+  .logo{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:9px;}
+  .logo-dot{width:9px; height:9px; border-radius:2px; background:linear-gradient(135deg,var(--espacial),var(--ciencias)); transform:rotate(45deg);}
+  .back-btn{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim); text-decoration:none; border:1px solid var(--line); padding:6px 14px; border-radius:8px; transition:all 0.2s;}
+  .back-btn:hover{color:var(--text); background:var(--surface);}
+
+  header{padding:40px 0 30px;}
+  .mod-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(32px, 4vw, 48px); font-weight:600; margin-bottom:16px;}
+  .welcome-box{
+    font-family:'JetBrains Mono',monospace; font-size:13.5px; line-height:1.7; color:var(--text-dim);
+    border-left:2px solid var(--espacial); padding-left:16px; margin-bottom:40px;
+  }
+
+  .search-container{position:relative; margin-bottom:40px;}
+  .search-box{
+    width:100%; padding:14px 18px; background:var(--surface); border:1px solid var(--line);
+    border-radius:10px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:14px;
+    outline:none; transition: border-color 0.2s;
+  }
+  .search-box:focus{border-color:var(--espacial);}
+  .search-results{
+    position:absolute; top:100%; left:0; right:0; background:var(--surface);
+    border:1px solid var(--line); border-radius:10px; margin-top:6px; max-height:200px;
+    overflow-y:auto; z-index:10; display:none;
+  }
+  .result-item{padding:12px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; cursor:pointer; border-bottom:1px solid var(--line);}
+  .result-item:last-child{border-bottom:none;}
+  .result-item:hover{background:rgba(255,255,255,0.03);}
+  .status-info{color:var(--auto); font-style:italic;}
+  .status-found{color:var(--ciencias);}
+
+  .mode-panel{display:inline-flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; position:relative; margin-bottom:30px;}
+  .mode-btn{font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-dim); cursor:pointer; z-index:2;}
+  body[data-mode="explorador"] .mode-btn.explorador, body[data-mode="ingeniero"] .mode-btn.ingeniero{color:#04070d;}
+  .mode-thumb{position:absolute; top:6px; bottom:6px; left:6px; width:calc(50% - 6px); border-radius:8px; background:linear-gradient(120deg,var(--ciencias),var(--aero)); transition:transform .32s cubic-bezier(.65,0,.35,1); z-index:1;}
+  body[data-mode="ingeniero"] .mode-thumb{transform:translateX(100%); background:linear-gradient(120deg,var(--espacial),var(--auto));}
+
+  .content-section{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:30px; margin-bottom:60px;}
+  .content-body{font-size:15.5px; line-height:1.75; color:var(--text-dim);}
+</style>
+</head>
+<body data-mode="explorador">
+
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><span class="logo-dot"></span>ESPACIO MÉXICO</div>
+      <a href="index.html" class="back-btn">← Volver al inicio</a>
+    </nav>
+
+    <header>
+      <h1 class="mod-title">Módulo Espacial</h1>
+      <div class="welcome-box">
+        Bienvenido al módulo espacial. Aquí aprenderemos conceptos relacionados con cohetes, satélites, propulsión, cálculo orbital, sistemas en cohetes, aerodinámica espacial y un sinfín de temas que se desarrollarán a lo largo del tiempo. La ciencia espacial ha sido uno de los mayores hitos en la historia de la humanidad; vivimos, habitamos y nacimos en este planeta, pero el desarrollo, el avance y la curiosidad nos impulsan a llegar más lejos, haciéndonos querer conocer y descubrir nuevos mundos.
+      </div>
+    </header>
+
+    <div class="search-container">
+      <input type="text" class="search-box" id="searchBox" placeholder="Buscar tema en este módulo...">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <div class="mode-panel" id="modePanel">
+      <div class="mode-thumb"></div>
+      <button class="mode-btn explorador" onclick="setMode('explorador')">EXPLORADOR</button>
+      <button class="mode-btn ingeniero" onclick="setMode('ingeniero')">INGENIERO</button>
+    </div>
+
+    <section class="content-section">
+      <div class="content-body" id="mainContent">
+        Selecciona un tema usando el buscador de arriba para comenzar a explorar la información de este módulo.
+      </div>
+    </section>
+  </div>
+
+<script>
+  function setMode(mode) {
+    document.body.dataset.mode = mode;
+  }
+
+  const CURRENT_MODULE = 'espacial'; 
+
+  const database = [
+    { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
+    { tema: "Propulsión de cohetes", modulo: "espacial", desarrollado: true },
+    { tema: "Sistemas en cohetes", modulo: "espacial", desarrollado: false },
+    { tema: "Perfiles alares y sustentación", modulo: "aeronautico", desarrollado: true },
+    { tema: "Motores de combustión", modulo: "automocion", desarrollado: true },
+    { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true }
+  ];
+
+  const searchBox = document.getElementById('searchBox');
+  const searchResults = document.getElementById('searchResults');
+
+  searchBox.addEventListener('input', () => {
+    const query = searchBox.value.toLowerCase().trim();
+    searchResults.innerHTML = '';
+    if (!query) { searchResults.style.display = 'none'; return; }
+
+    const matches = database.filter(item => item.tema.toLowerCase().includes(query));
+
+    if (matches.length === 0) {
+      searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
+      searchResults.style.display = 'block';
+      return;
+    }
+
+    matches.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      if (item.modulo === CURRENT_MODULE) {
+        if (item.desarrollado) {
+          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
+          div.onclick = () => { document.getElementById('mainContent').innerText = `Cargando interfaz para: ${item.tema}...`; searchResults.style.display = 'none'; };
+        } else {
+          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
+        }
+      } else {
+        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
+      }
+      searchResults.appendChild(div);
+    });
+    searchResults.style.display = 'block';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
+  });
+</script>
+</body>
+</html>
