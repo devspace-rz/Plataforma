@@ -196,12 +196,17 @@
     background:linear-gradient(120deg,var(--espacial),var(--auto));
   }
   .mode-hint{
-    margin-top:14px;
+    margin-top:20px;
     font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    color:var(--text-faint);
-    max-width:420px;
-    line-height:1.6;
+    font-size:13px;
+    color:var(--text-dim);
+    max-width:820px;
+    line-height:1.7;
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+  }
+  .mode-hint strong{
+    color: var(--text);
   }
 
   /* MODULES */
@@ -340,7 +345,7 @@
   .legend i{ width:7px; height:7px; border-radius:2px; display:inline-block; transform:rotate(45deg); }
 
   /* ============================================================
-     HERO BACKGROUND SLIDESHOW (Corregido: Nitidez e Encuadre)
+     HERO BACKGROUND SLIDESHOW (Nitidez e Encuadre)
      ============================================================ */
   .hero-slideshow{
     position:absolute;
@@ -357,27 +362,26 @@
     inset:0;
     width:100%;
     height:100%;
-    object-fit: contain;     /* Mantiene proporción nativa sin pixelar ni hacer zoom agresivo */
-    object-position: right center; /* Desplaza las imágenes a la derecha para no obstruir el texto */
+    object-fit: contain;
+    object-position: right center;
     opacity:0;
     pointer-events:none;
     user-select:none;
-    filter: brightness(1.1) contrast(1.1); /* Realza detalles y bordes */
+    filter: brightness(1.1) contrast(1.1);
     animation-name:hero-fade-cycle;
     animation-duration:24s;
     animation-iteration-count:infinite;
     animation-timing-function:ease-in-out;
   }
   
-  /* Ajustes individuales para enfocar la acción de cada imagen */
-  .hero-slideshow img:nth-of-type(1){ animation-delay:0s; object-position: right center; } /* cohete.jpg */
-  .hero-slideshow img:nth-of-type(2){ animation-delay:6s; object-position: right 30%; }    /* avion.jpg */
-  .hero-slideshow img:nth-of-type(3){ animation-delay:12s; object-position: right center; } /* coche.jpg */
-  .hero-slideshow img:nth-of-type(4){ animation-delay:18s; object-position: right center; } /* basico.jpg */
+  .hero-slideshow img:nth-of-type(1){ animation-delay:0s; object-position: right center; }
+  .hero-slideshow img:nth-of-type(2){ animation-delay:6s; object-position: right 30%; }
+  .hero-slideshow img:nth-of-type(3){ animation-delay:12s; object-position: right center; }
+  .hero-slideshow img:nth-of-type(4){ animation-delay:18s; object-position: right center; }
 
   @keyframes hero-fade-cycle{
     0%   { opacity:0; }
-    3%   { opacity:0.28; }   /* Opacidad aumentada a 0.28 para mayor definición */
+    3%   { opacity:0.28; }
     17%  { opacity:0.28; }
     20%  { opacity:0; }
     100% { opacity:0; }
@@ -405,8 +409,6 @@
     </nav>
 
     <section class="hero">
-
-      <!-- Contenedor del Slideshow con tus archivos locales asignados -->
       <div class="hero-slideshow" aria-hidden="true">
         <img src="cohete.jpg" alt="">
         <img src="avion.jpg" alt="">
@@ -423,7 +425,11 @@
         <button class="mode-btn explorador" data-set="explorador">EXPLORADOR</button>
         <button class="mode-btn ingeniero" data-set="ingeniero">INGENIERO</button>
       </div>
-      <p class="mode-hint">El modo Explorador simplifica cada módulo para primer contacto. El modo Ingeniero añade profundidad técnica y lecturas de referencia — cambia entre ambos en cualquier módulo.</p>
+      
+      <!-- REEMPLAZADO DIRECTAMENTE AQUÍ EL TEXTO BASE POR TU MENSAJE PERSONAL -->
+      <p class="mode-hint">
+        <strong>Hola, te saluda Diego Ramirez, creador de este sitio en desarrollo.</strong> Este proyecto, más que una plataforma, es un sitio de aprendizaje libre. No tocamos los temas como se ven en una institución educativa formal, pero creé esto con el fin de que cualquier persona, sin importar su nivel de estudios, pueda entender todo lo relacionado a estos temas. Iniciar aprendiendo como cualquiera de nosotros: por curiosidad, interés o diversión, como cualquier explorador, para que con esas herramientas se pueda llegar a entender a niveles más técnicos y formales como en un modo "ingeniero". Apasiónense, disfruten y, sobre todo, sigan investigando más allá de lo que se ve aquí. Este es apenas, quizá para algunos, el primer contacto con estos temas y, para otros, algo ya conocido; en cualquiera de los dos casos aconsejo lo mismo: sigan buscando e investigando. Sean curiosos, espontáneos, atrevidos y abiertos a pensar, idear, descubrir y, por qué no, a inventar y crear cosas que aún no hemos descubierto. Así sin más, bienvenidos.
+      </p>
     </section>
 
     <section class="modules">
@@ -510,7 +516,6 @@
     });
   });
 
-  // subtle glow follow on cards
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
