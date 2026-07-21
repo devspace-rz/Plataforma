@@ -6,10 +6,16 @@
 <title>ESPACIO MÉXICO · Ciencias Fundamentales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Carga de MathJax para renderizar ecuaciones LaTeX limpias y elegantes -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 <style>
   :root{
     --bg:#0A0E17;
     --surface:#131A2A;
+    --surface-2:#1A2338;
     --line:#232D42;
     --text:#E9EDF5;
     --text-dim:#8B93A7;
@@ -40,14 +46,14 @@
   .back-btn{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim); text-decoration:none; border:1px solid var(--line); padding:6px 14px; border-radius:8px; transition:all 0.2s;}
   .back-btn:hover{color:var(--text); background:var(--surface);}
 
-  header{padding:40px 0 30px;}
+  header{padding:40px 0 20px;}
   .mod-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(32px, 4vw, 48px); font-weight:600; margin-bottom:16px;}
   .welcome-box{
     font-family:'JetBrains Mono',monospace; font-size:13.5px; line-height:1.7; color:var(--text-dim);
-    border-left:2px solid var(--ciencias); padding-left:16px; margin-bottom:40px;
+    border-left:2px solid var(--ciencias); padding-left:16px; margin-bottom:30px;
   }
 
-  .search-container{position:relative; margin-bottom:40px;}
+  .search-container{position:relative; margin-bottom:30px;}
   .search-box{
     width:100%; padding:14px 18px; background:var(--surface); border:1px solid var(--line);
     border-radius:10px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:14px;
@@ -56,22 +62,46 @@
   .search-box:focus{border-color:var(--ciencias);}
   .search-results{
     position:absolute; top:100%; left:0; right:0; background:var(--surface);
-    border:1px solid var(--line); border-radius:10px; margin-top:6px; max-height:200px;
+    border:1px solid var(--line); border-radius:10px; margin-top:6px; max-height:220px;
     overflow-y:auto; z-index:10; display:none;
   }
   .result-item{padding:12px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; cursor:pointer; border-bottom:1px solid var(--line);}
+  .result-item:last-child{border-bottom:none;}
   .result-item:hover{background:rgba(255,255,255,0.03);}
   .status-info{color:var(--auto); font-style:italic;}
   .status-found{color:var(--ciencias);}
 
-  .mode-panel{display:inline-flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; position:relative; margin-bottom:30px;}
-  .mode-btn{font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-dim); cursor:pointer; z-index:2;}
-  body[data-mode="explorador"] .mode-btn.explorador, body[data-mode="ingeniero"] .mode-btn.ingeniero{color:#04070d;}
+  /* BARRA DE SELECCIÓN DE MODO */
+  .mode-panel{display:inline-flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; position:relative; margin-bottom:25px;}
+  .mode-btn{font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-dim); cursor:pointer; z-index:2; transition:color 0.2s;}
+  body[data-mode="explorador"] .mode-btn.explorador, body[data-mode="ingeniero"] .mode-btn.ingeniero{color:#04070d; font-weight:600;}
   .mode-thumb{position:absolute; top:6px; bottom:6px; left:6px; width:calc(50% - 6px); border-radius:8px; background:linear-gradient(120deg,var(--ciencias),var(--aero)); transition:transform .32s cubic-bezier(.65,0,.35,1); z-index:1;}
   body[data-mode="ingeniero"] .mode-thumb{transform:translateX(100%); background:linear-gradient(120deg,var(--espacial),var(--auto));}
 
-  .content-section{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:30px; margin-bottom:60px;}
-  .content-body{font-size:15.5px; line-height:1.75; color:var(--text-dim);}
+  /* CONTENEDOR PRINCIPAL DEL TEMA */
+  .content-section{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:32px; margin-bottom:60px;}
+  .tema-title{font-family:'Space Grotesk',sans-serif; font-size:26px; color:var(--text); margin-bottom:12px;}
+  .tema-badge{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ciencias); border:1px solid var(--ciencias); padding:3px 10px; border-radius:12px; margin-bottom:20px;}
+  
+  .modo-block{line-height:1.75; font-size:15px; color:var(--text-dim);}
+  .modo-block p{margin-bottom:16px;}
+  .modo-block ul{margin:12px 0 20px 24px;}
+  .modo-block li{margin-bottom:10px;}
+  .modo-block strong{color:var(--text);}
+  
+  /* ESTILOS DE ECUACIONES EN MODO INGENIERO */
+  .math-card{
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px;
+    margin:20px 0;
+    overflow-x:auto;
+  }
+  .equation-accent{
+    color:var(--auto);
+    font-weight:600;
+  }
 </style>
 </head>
 <body data-mode="explorador">
@@ -90,30 +120,99 @@
       </div>
     </header>
 
+    <!-- BUSCADOR INTERNO -->
     <div class="search-container">
-      <input type="text" class="search-box" id="searchBox" placeholder="Buscar tema en este módulo...">
+      <input type="text" class="search-box" id="searchBox" placeholder="Buscar tema en este módulo (ej: Propulsión y Empuje)...">
       <div class="search-results" id="searchResults"></div>
     </div>
 
+    <!-- SWITCH DE MODO -->
     <div class="mode-panel" id="modePanel">
       <div class="mode-thumb"></div>
       <button class="mode-btn explorador" onclick="setMode('explorador')">EXPLORADOR</button>
       <button class="mode-btn ingeniero" onclick="setMode('ingeniero')">INGENIERO</button>
     </div>
 
-    <section class="content-section">
-      <div class="content-body" id="mainContent">
-        Selecciona un tema usando el buscador de arriba para comenzar a explorar la información de este módulo.
+    <!-- SECCIÓN DE DESPLIEGUE DEL TEMA -->
+    <section class="content-section" id="themeContainer">
+      <span class="tema-badge">04 / CIENCIAS BÁSICAS</span>
+      <h2 class="tema-title" id="themeTitle">Propulsión y Empuje</h2>
+
+      <!-- CONTENIDO MODO EXPLORADOR -->
+      <div id="modo-explorador" class="modo-block">
+        <p>Imagina que estás en una patineta y tienes muchos globos llenos de aire. Si aprietas un globo y el aire sale disparado hacia atrás, tú y la patineta se mueven hacia adelante.</p>
+        <p><strong>Eso es la idea principal de la propulsión.</strong></p>
+        <p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama <strong>empuje</strong>.</p>
+        <p>Un motor de avión toma aire de delante, lo aprieta y lo acelera para expulsarlo muy rápido hacia atrás. Como respuesta, el avión recibe un “empujón” hacia adelante. Esto sucede por las leyes de Newton:</p>
+        <ul>
+          <li><strong>Tercera ley de Newton:</strong> <em>“Para cada acción hay una reacción igual y opuesta.”</em><br>
+          Si el motor empuja aire hacia atrás, el aire “empuja” al motor —y al avión— hacia adelante.</li>
+          <li><strong>Segunda ley de Newton:</strong> Cuanto más aceleres una masa, mayor fuerza puedes producir.<br>
+          Es decir: si el motor hace salir mucho aire, o lo hace salir mucho más rápido, el empuje aumenta.</li>
+        </ul>
+      </div>
+
+      <!-- CONTENIDO MODO INGENIERO -->
+      <div id="modo-ingeniero" class="modo-block" style="display: none;">
+        <p><strong>Propulsión:</strong> Proceso de generar una fuerza $\vec{F}$ para mover un objeto a través de un medio, generalmente mediante la aceleración de una masa (de aire o gases) expulsada a alta velocidad. La propulsión se refiere al uso de motores para crear el empuje que desplaza la aeronave.</p>
+        
+        <p><strong>Empuje:</strong> Fuerza de reacción descrita cuantitativamente por la Tercera Ley de Newton. En los aviones el empuje se genera por la aplicación de la $2^\text{da}$ y $3^\text{ra}$ ley de Newton: un gas o un fluido es acelerado a través del motor y la reacción a esta masa acelerada produce una fuerza sobre el mismo. De aquí desprendemos dos términos fundamentales: <strong>Reacción</strong> y <strong>Energía</strong>.</p>
+        
+        <ul>
+          <li><strong>Reacción:</strong> Todos los sistemas de propulsión en aviación se basan en el principio de reacción del flujo de aire que pasa a través de un motor o bien en la aceleración de un flujo de aire a través del motor. La reacción es que el aire se acelera a través del motor.</li>
+        </ul>
+
+        <h3 style="font-family:'Space Grotesk',sans-serif; color:var(--text); margin:26px 0 12px;">Ecuación General de Empuje (Thrust)</h3>
+        
+        <p><strong>Fuerza:</strong> Cambio en el momentum con el tiempo.<br>
+        <em>Momentum:</em> Pasar de velocidad $0$ a velocidad $x$. Pasar de estado estacionario a dinámico.</p>
+
+        <div class="math-card">
+          $$\text{Momentum: } m \cdot v \quad \rightarrow \quad F = M \frac{dv}{dt} = ma$$
+
+          $$F = \frac{m v_2 - m v_1}{t_2 - t_1} \quad \rightarrow \quad F = \dot{m}_9 V_9 - \dot{m}_0 V_0$$
+
+          $$\dot{m} = \frac{\text{masa}}{\text{tiempo}} = \rho V A \qquad \text{y} \qquad \sum \dot{m}_{\text{in}} = \sum \dot{m}_{\text{out}}$$
+
+          <p style="font-size:0.85em; color:var(--text-faint); margin: 10px 0 16px;">Donde $\rho = \text{Densidad}$, $V = \text{Velocidad}$, $A = \text{Área}$.</p>
+
+          <p>Si $p_9 \neq p_0$ (diferencia de presiones entre la salida y la atmósfera):</p>
+          $$F = \dot{m}_9 V_9 - \dot{m}_0 V_0 + (p_9 - p_0)A_9$$
+
+          <p style="margin-top:14px;">Considerando la adición de la masa de combustible ($\dot{m}_f$):</p>
+          <p class="equation-accent">
+            $$F = (\dot{m}_0 + \dot{m}_f)V_9 - \dot{m}_0 V_0 + (p_9 - p_0)A_9$$
+          </p>
+        </div>
       </div>
     </section>
   </div>
 
 <script>
-  function setMode(mode) { document.body.dataset.mode = mode; }
+  // FUNCIÓN PARA CAMBIAR ENTRE MODO EXPLORADOR E INGENIERO
+  function setMode(mode) {
+    document.body.dataset.mode = mode;
+    const exp = document.getElementById('modo-explorador');
+    const ing = document.getElementById('modo-ingeniero');
+
+    if (mode === 'explorador') {
+      exp.style.display = 'block';
+      ing.style.display = 'none';
+    } else {
+      exp.style.display = 'none';
+      ing.style.display = 'block';
+      // Forzar renderizado de MathJax si está presente
+      if (window.MathJax) {
+        MathJax.typesetPromise();
+      }
+    }
+  }
+
+  // PROGRAMACIÓN DEL BUSCADOR INTELIGENTE
   const CURRENT_MODULE = 'ciencias'; 
 
   const database = [
-    { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
+    { tema: "Propulsión y Empuje", modulo: "ciencias", desarrollado: true },
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false },
     { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
     { tema: "Perfiles alares y sustentación", modulo: "aeronautico", desarrollado: true },
@@ -142,7 +241,10 @@
       if (item.modulo === CURRENT_MODULE) {
         if (item.desarrollado) {
           div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { document.getElementById('mainContent').innerText = `Cargando interfaz para: ${item.tema}...`; searchResults.style.display = 'none'; };
+          div.onclick = () => { 
+            document.getElementById('themeTitle').innerText = item.tema; 
+            searchResults.style.display = 'none'; 
+          };
         } else {
           div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
         }
