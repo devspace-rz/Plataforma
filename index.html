@@ -9,14 +9,11 @@
 <style>
   :root{
     --bg:#0A0E17;
-    --bg-2:#0F1522;
     --surface:#131A2A;
-    --surface-2:#1A2338;
     --line:#232D42;
     --text:#E9EDF5;
     --text-dim:#8B93A7;
     --text-faint:#4E5871;
-
     --espacial:#7C5CFF;
     --espacial-dim: rgba(124,92,255,0.14);
     --aero:#2FA8FF;
@@ -25,7 +22,6 @@
     --auto-dim: rgba(255,106,61,0.14);
     --ciencias:#33D6A6;
     --ciencias-dim: rgba(51,214,166,0.14);
-
     --radius:14px;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -62,7 +58,8 @@
 
   .wrap{max-width:1180px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
 
-  nav{ display:flex; align-items:center; justify-space-between; padding:26px 0; }
+  /* CORRECCIÓN DE LA BARRA DE NAVEGACIÓN */
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:26px 0; width:100%; }
   .logo{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; letter-spacing:0.02em; display:flex; align-items:center; gap:9px; }
   .logo-dot{ width:9px; height:9px; border-radius:2px; background:linear-gradient(135deg,var(--espacial),var(--ciencias)); transform:rotate(45deg); flex-shrink:0; }
   .navlinks{ display:flex; gap:34px; list-style:none; font-size:13.5px; letter-spacing:0.03em; color:var(--text-dim); font-family:'JetBrains Mono',monospace; }
