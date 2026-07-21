@@ -7,8 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<!-- Carga de MathJax para renderizar ecuaciones LaTeX limpias y elegantes -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<!-- MathJax limpio SIN polyfill.io para evitar pop-ups -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
@@ -40,7 +39,7 @@
   }
   .wrap{max-width:960px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
   
-  nav{display:flex; align-items:center; justify-content:space-between; padding:26px 0;}
+  nav{display:flex; align-items:center; justify-content:space-between; padding:26px 0; width:100%;}
   .logo{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:9px;}
   .logo-dot{width:9px; height:9px; border-radius:2px; background:linear-gradient(135deg,var(--espacial),var(--ciencias)); transform:rotate(45deg);}
   .back-btn{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim); text-decoration:none; border:1px solid var(--line); padding:6px 14px; border-radius:8px; transition:all 0.2s;}
@@ -53,6 +52,7 @@
     border-left:2px solid var(--ciencias); padding-left:16px; margin-bottom:30px;
   }
 
+  /* BUSCADOR INTELIGENTE */
   .search-container{position:relative; margin-bottom:30px;}
   .search-box{
     width:100%; padding:14px 18px; background:var(--surface); border:1px solid var(--line);
@@ -65,20 +65,21 @@
     border:1px solid var(--line); border-radius:10px; margin-top:6px; max-height:220px;
     overflow-y:auto; z-index:10; display:none;
   }
-  .result-item{padding:12px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; cursor:pointer; border-bottom:1px solid var(--line);}
+  .result-item{padding:12px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; border-bottom:1px solid var(--line);}
   .result-item:last-child{border-bottom:none;}
   .result-item:hover{background:rgba(255,255,255,0.03);}
-  .status-info{color:var(--auto); font-style:italic;}
+  .status-other{color:var(--auto);}
   .status-found{color:var(--ciencias);}
+  .status-notfound{color:var(--text-faint); font-style:italic;}
 
-  /* BARRA DE SELECCIÓN DE MODO */
+  /* SWITCH DE MODO */
   .mode-panel{display:inline-flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; position:relative; margin-bottom:25px;}
   .mode-btn{font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-dim); cursor:pointer; z-index:2; transition:color 0.2s;}
   body[data-mode="explorador"] .mode-btn.explorador, body[data-mode="ingeniero"] .mode-btn.ingeniero{color:#04070d; font-weight:600;}
   .mode-thumb{position:absolute; top:6px; bottom:6px; left:6px; width:calc(50% - 6px); border-radius:8px; background:linear-gradient(120deg,var(--ciencias),var(--aero)); transition:transform .32s cubic-bezier(.65,0,.35,1); z-index:1;}
   body[data-mode="ingeniero"] .mode-thumb{transform:translateX(100%); background:linear-gradient(120deg,var(--espacial),var(--auto));}
 
-  /* CONTENEDOR PRINCIPAL DEL TEMA */
+  /* CONTENIDO */
   .content-section{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:32px; margin-bottom:60px;}
   .tema-title{font-family:'Space Grotesk',sans-serif; font-size:26px; color:var(--text); margin-bottom:12px;}
   .tema-badge{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ciencias); border:1px solid var(--ciencias); padding:3px 10px; border-radius:12px; margin-bottom:20px;}
@@ -89,19 +90,15 @@
   .modo-block li{margin-bottom:10px;}
   .modo-block strong{color:var(--text);}
   
-  /* ESTILOS DE ECUACIONES EN MODO INGENIERO */
   .math-card{
-    background:var(--bg-2);
+    background:var(--surface-2);
     border:1px solid var(--line);
     border-radius:10px;
     padding:20px;
     margin:20px 0;
     overflow-x:auto;
   }
-  .equation-accent{
-    color:var(--auto);
-    font-weight:600;
-  }
+  .equation-accent{ color:var(--auto); font-weight:600; }
 </style>
 </head>
 <body data-mode="explorador">
@@ -122,7 +119,7 @@
 
     <!-- BUSCADOR INTERNO -->
     <div class="search-container">
-      <input type="text" class="search-box" id="searchBox" placeholder="Buscar tema en este módulo (ej: Propulsión y Empuje)...">
+      <input type="text" class="search-box" id="searchBox" placeholder="Buscar tema (ej: Propulsión, Perfiles alares, Motores)...">
       <div class="search-results" id="searchResults"></div>
     </div>
 
@@ -133,12 +130,12 @@
       <button class="mode-btn ingeniero" onclick="setMode('ingeniero')">INGENIERO</button>
     </div>
 
-    <!-- SECCIÓN DE DESPLIEGUE DEL TEMA -->
-    <section class="content-section" id="themeContainer">
+    <!-- CONTENEDOR DEL TEMA -->
+    <section class="content-section">
       <span class="tema-badge">04 / CIENCIAS BÁSICAS</span>
-      <h2 class="tema-title" id="themeTitle">Propulsión y Empuje</h2>
+      <h2 class="tema-title">Propulsión y Empuje</h2>
 
-      <!-- CONTENIDO MODO EXPLORADOR -->
+      <!-- MODO EXPLORADOR -->
       <div id="modo-explorador" class="modo-block">
         <p>Imagina que estás en una patineta y tienes muchos globos llenos de aire. Si aprietas un globo y el aire sale disparado hacia atrás, tú y la patineta se mueven hacia adelante.</p>
         <p><strong>Eso es la idea principal de la propulsión.</strong></p>
@@ -152,7 +149,7 @@
         </ul>
       </div>
 
-      <!-- CONTENIDO MODO INGENIERO -->
+      <!-- MODO INGENIERO -->
       <div id="modo-ingeniero" class="modo-block" style="display: none;">
         <p><strong>Propulsión:</strong> Proceso de generar una fuerza $\vec{F}$ para mover un objeto a través de un medio, generalmente mediante la aceleración de una masa (de aire o gases) expulsada a alta velocidad. La propulsión se refiere al uso de motores para crear el empuje que desplaza la aeronave.</p>
         
@@ -189,7 +186,6 @@
   </div>
 
 <script>
-  // FUNCIÓN PARA CAMBIAR ENTRE MODO EXPLORADOR E INGENIERO
   function setMode(mode) {
     document.body.dataset.mode = mode;
     const exp = document.getElementById('modo-explorador');
@@ -201,22 +197,19 @@
     } else {
       exp.style.display = 'none';
       ing.style.display = 'block';
-      // Forzar renderizado de MathJax si está presente
-      if (window.MathJax) {
-        MathJax.typesetPromise();
-      }
+      if (window.MathJax) { MathJax.typesetPromise(); }
     }
   }
 
-  // PROGRAMACIÓN DEL BUSCADOR INTELIGENTE
+  // MÓDULO ACTUAL
   const CURRENT_MODULE = 'ciencias'; 
 
+  // BASE DE DATOS GLOBAL DE BÚSQUEDA
   const database = [
-    { tema: "Propulsión y Empuje", modulo: "ciencias", desarrollado: true },
-    { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false },
-    { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
-    { tema: "Perfiles alares y sustentación", modulo: "aeronautico", desarrollado: true },
-    { tema: "Motores de combustión", modulo: "automocion", desarrollado: true }
+    { tema: "Propulsión y Empuje", modulo: "ciencias", desarrollado: true, nombreModulo: "Ciencias Básicas" },
+    { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true, nombreModulo: "Espacial" },
+    { tema: "Perfiles alares y sustentación", modulo: "aeronautico", desarrollado: true, nombreModulo: "Aeronáutico" },
+    { tema: "Motores de combustión", modulo: "automocion", desarrollado: true, nombreModulo: "Automoción" }
   ];
 
   const searchBox = document.getElementById('searchBox');
@@ -229,8 +222,9 @@
 
     const matches = database.filter(item => item.tema.toLowerCase().includes(query));
 
+    // CASO 1: El tema no existe en la base de datos
     if (matches.length === 0) {
-      searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
+      searchResults.innerHTML = `<div class="result-item status-notfound">Este tema aún no se ha desarrollado;0</div>`;
       searchResults.style.display = 'block';
       return;
     }
@@ -238,26 +232,25 @@
     matches.forEach(item => {
       const div = document.createElement('div');
       div.className = 'result-item';
+
       if (item.modulo === CURRENT_MODULE) {
-        if (item.desarrollado) {
-          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { 
-            document.getElementById('themeTitle').innerText = item.tema; 
-            searchResults.style.display = 'none'; 
-          };
-        } else {
-          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
-        }
+        // CASO 2: El tema pertenece a este módulo
+        div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
       } else {
-        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
+        // CASO 3: El tema está en OTRO módulo (indica a cuál ir)
+        div.innerHTML = `<span class="status-other">➔ Este tema se encuentra en el Módulo de ${item.nombreModulo}. Regresa al inicio e ingresa a él.</span>`;
       }
+      
       searchResults.appendChild(div);
     });
+
     searchResults.style.display = 'block';
   });
 
   document.addEventListener('click', (e) => {
-    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.style.display = 'none';
+    }
   });
 </script>
 </body>
