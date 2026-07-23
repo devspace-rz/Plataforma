@@ -7,71 +7,59 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0A0E17;
-    --surface:#131A2A;
-    --line:#232D42;
-    --text:#E9EDF5;
-    --text-dim:#8B93A7;
-    --text-faint:#4E5871;
-    --ciencias:#33D6A6;
-    --espacial:#7C5CFF;
-    --aero:#2FA8FF;
-    --auto:#FF6A3D;
-    --radius:14px;
+  :root {
+    --bg: #0A0E17;
+    --surface: #131A2A;
+    --line: #232D42;
+    --text: #E9EDF5;
+    --text-dim: #8B93A7;
+    --text-faint: #4E5871;
+    --ciencias: #33D6A6;
+    --espacial: #7C5CFF;
+    --aero: #2FA8FF;
+    --auto: #FF6A3D;
+    --radius: 14px;
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{
-    background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; overflow-x:hidden;
-  }
-  .grid-bg{
-    position:fixed; inset:0; z-index:0;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  
+  .grid-bg {
+    position: fixed; inset: 0; z-index: 0;
     background-image: linear-gradient(rgba(47,168,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(47,168,255,0.04) 1px, transparent 1px);
-    background-size:56px 56px;
+    background-size: 56px 56px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 85%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 85%);
-    pointer-events:none;
+    pointer-events: none;
   }
-  .wrap{max-width:960px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
   
-  nav{display:flex; align-items:center; justify-content:space-between; padding:26px 0;}
-  .logo{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:9px;}
-  .logo-dot{width:9px; height:9px; border-radius:2px; background:linear-gradient(135deg,var(--espacial),var(--ciencias)); transform:rotate(45deg);}
-  .back-btn{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim); text-decoration:none; border:1px solid var(--line); padding:6px 14px; border-radius:8px; transition:all 0.2s;}
-  .back-btn:hover{color:var(--text); background:var(--surface);}
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; display: flex; align-items: center; gap: 9px; }
+  .logo-dot { width: 9px; height: 9px; border-radius: 2px; background: linear-gradient(135deg, var(--espacial), var(--ciencias)); transform: rotate(45deg); }
+  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; }
+  .back-btn:hover { color: var(--text); background: var(--surface); }
 
-  header{padding:40px 0 30px;}
-  .mod-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(32px, 4vw, 48px); font-weight:600; margin-bottom:16px;}
-  .welcome-box{
-    font-family:'JetBrains Mono',monospace; font-size:13.5px; line-height:1.7; color:var(--text-dim);
-    border-left:2px solid var(--aero); padding-left:16px; margin-bottom:40px;
-  }
+  header { padding: 40px 0 30px; }
+  .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
+  .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--aero); padding-left: 16px; margin-bottom: 40px; }
 
-  .search-container{position:relative; margin-bottom:40px;}
-  .search-box{
-    width:100%; padding:14px 18px; background:var(--surface); border:1px solid var(--line);
-    border-radius:10px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:14px;
-    outline:none; transition: border-color 0.2s;
-  }
-  .search-box:focus{border-color:var(--aero);}
-  .search-results{
-    position:absolute; top:100%; left:0; right:0; background:var(--surface);
-    border:1px solid var(--line); border-radius:10px; margin-top:6px; max-height:200px;
-    overflow-y:auto; z-index:10; display:none;
-  }
-  .result-item{padding:12px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; cursor:pointer; border-bottom:1px solid var(--line);}
-  .result-item:hover{background:rgba(255,255,255,0.03);}
-  .status-info{color:var(--auto); font-style:italic;}
-  .status-found{color:var(--ciencias);}
+  .search-container { position: relative; margin-bottom: 40px; }
+  .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
+  .search-box:focus { border-color: var(--aero); }
+  .search-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-top: 6px; max-height: 200px; overflow-y: auto; z-index: 10; display: none; }
+  .result-item { padding: 12px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--line); }
+  .result-item:hover { background: rgba(255,255,255,0.03); }
+  .status-info { color: var(--auto); font-style: italic; }
+  .status-found { color: var(--ciencias); }
 
-  .mode-panel{display:inline-flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; position:relative; margin-bottom:30px;}
-  .mode-btn{font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-dim); cursor:pointer; z-index:2;}
-  body[data-mode="explorador"] .mode-btn.explorador, body[data-mode="ingeniero"] .mode-btn.ingeniero{color:#04070d;}
-  .mode-thumb{position:absolute; top:6px; bottom:6px; left:6px; width:calc(50% - 6px); border-radius:8px; background:linear-gradient(120deg,var(--ciencias),var(--aero)); transition:transform .32s cubic-bezier(.65,0,.35,1); z-index:1;}
-  body[data-mode="ingeniero"] .mode-thumb{transform:translateX(100%); background:linear-gradient(120deg,var(--espacial),var(--auto));}
+  .mode-panel { display: inline-flex; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px; position: relative; margin-bottom: 30px; }
+  .mode-btn { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 16px; border-radius: 8px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; z-index: 2; }
+  body[data-mode="explorador"] .mode-btn.explorador, body[data-mode="ingeniero"] .mode-btn.ingeniero { color: #04070d; }
+  .mode-thumb { position: absolute; top: 6px; bottom: 6px; left: 6px; width: calc(50% - 6px); border-radius: 8px; background: linear-gradient(120deg, var(--ciencias), var(--aero)); transition: transform .32s cubic-bezier(.65,0,.35,1); z-index: 1; }
+  body[data-mode="ingeniero"] .mode-thumb { transform: translateX(100%); background: linear-gradient(120deg, var(--espacial), var(--auto)); }
 
-  .content-section{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:30px; margin-bottom:60px;}
-  .content-body{font-size:15.5px; line-height:1.75; color:var(--text-dim);}
+  .content-section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; margin-bottom: 60px; }
+  .content-body { font-size: 15.5px; line-height: 1.75; color: var(--text-dim); }
 </style>
 </head>
 <body data-mode="explorador">
@@ -113,11 +101,15 @@
   const CURRENT_MODULE = 'aeronautico'; 
 
   const database = [
+    { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
+    { tema: "Propulsión de cohetes", modulo: "espacial", desarrollado: true },
+    { tema: "Sistemas en cohetes", modulo: "espacial", desarrollado: false },
     { tema: "Perfiles alares y sustentación", modulo: "aeronautico", desarrollado: true },
     { tema: "Motores a reacción", modulo: "aeronautico", desarrollado: false },
-    { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
     { tema: "Motores de combustión", modulo: "automocion", desarrollado: true },
-    { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true }
+    { tema: "Transmisiones mecánicas", modulo: "automocion", desarrollado: false },
+    { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
+    { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false }
   ];
 
   const searchBox = document.getElementById('searchBox');
