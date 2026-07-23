@@ -37,7 +37,7 @@
   nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; }
   .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; display: flex; align-items: center; gap: 9px; }
   .logo-dot { width: 9px; height: 9px; border-radius: 2px; background: linear-gradient(135deg, var(--espacial), var(--ciencias)); transform: rotate(45deg); }
-  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; }
+  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
   header { padding: 40px 0 30px; }
@@ -62,7 +62,6 @@
   .content-section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; margin-bottom: 60px; }
   .content-body { font-size: 15.5px; line-height: 1.75; color: var(--text-dim); }
 
-  /* ESTILOS DE LISTA Y SCROLL LATERAL IZQUIERDO */
   .temas-container { background-color: transparent; border-radius: 12px; padding: 10px 0; }
   .scroll-area { max-height: 380px; overflow-y: auto; direction: rtl; padding-left: 20px; }
   .lista-temas { direction: ltr; list-style: none; display: flex; flex-direction: column; padding: 0; margin: 0; }
@@ -94,7 +93,7 @@
     <header>
       <h1 class="mod-title">Ciencias Fundamentales</h1>
       <div class="welcome-box">
-        ¿Qué es la ciencia y qué somos sin ella? La ciencia es el esfuerzo humano organizado para entender cómo funciona el universo; con ella somos capaces de diseñar el futuro, explicar la realidad y ser seres interconectados. Aquí aprenderemos ciencias básicas que rigen el funcionamiento de los otros tres módulos, además de algunos extras muy interesantes.
+        ¿Qué es la ciencia y qué somos sin ella? Aquí aprenderemos ciencias básicas que rigen el funcionamiento de los otros tres módulos, además de algunos extras muy interesantes.
       </div>
     </header>
 
@@ -115,23 +114,13 @@
           <div class="scroll-area">
             <ul class="lista-temas">
               
-              <li class="tema-item">
+              <li class="tema-item" onclick="cargarContenido('ciclosTermodinamicos')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.8"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg>
                 </div>
                 <div class="tema-info">
                   <h4 class="tema-titulo">Ciclos Termodinámicos</h4>
                   <p class="tema-desc">Leyes de la termodinámica y transferencia de calor</p>
-                </div>
-              </li>
-
-              <li class="tema-item">
-                <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                </div>
-                <div class="tema-info">
-                  <h4 class="tema-titulo">Ciencia de Materiales</h4>
-                  <p class="tema-desc">Propiedades mecánicas y aleaciones aeroespaciales</p>
                 </div>
               </li>
 
@@ -144,7 +133,33 @@
 
 <script>
   function setMode(mode) { document.body.dataset.mode = mode; }
-  const CURRENT_MODULE = 'ciencias'; 
+  const CURRENT_MODULE = 'ciencias';
+
+  const contenidoTemas = {
+    ciclosTermodinamicos: {
+      explorador: `
+        <h2 style="color: var(--ciencias); margin-bottom: 15px;">Ciclos Termodinámicos</h2>
+        <p>Estudian cómo el calor se transforma en trabajo útil y viceversa, siendo la base fundamental para motores, turbinas y sistemas de refrigeración.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--ciencias); margin-bottom: 15px;">Ciclos Termodinámicos (Análisis Técnico)</h2>
+        <p>Aplicación de la primera y segunda ley de la termodinámica, análisis de entropía y balances de energía en sistemas cerrados y abiertos.</p>
+      `
+    }
+  };
+
+  function cargarContenido(temaId) {
+    const mainContent = document.getElementById('mainContent');
+    const modoActual = document.body.dataset.mode;
+    const tema = contenidoTemas[temaId];
+    if (!tema) return;
+    mainContent.innerHTML = `
+      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver al temas</button>
+      ${tema[modoActual]}
+    `;
+  }
+
+  function regresarLista() { location.reload(); }
 
   const database = [
     { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
@@ -165,22 +180,19 @@
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
     if (!query) { searchResults.style.display = 'none'; return; }
-
     const matches = database.filter(item => item.tema.toLowerCase().includes(query));
-
     if (matches.length === 0) {
       searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
       searchResults.style.display = 'block';
       return;
     }
-
     matches.forEach(item => {
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
         if (item.desarrollado) {
           div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { document.getElementById('mainContent').innerText = `Cargando interfaz para: ${item.tema}...`; searchResults.style.display = 'none'; };
+          div.onclick = () => { searchResults.style.display = 'none'; };
         } else {
           div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
         }
