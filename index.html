@@ -7,392 +7,128 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0A0E17;
-    --bg-2:#0F1522;
-    --surface:#131A2A;
-    --surface-2:#1A2338;
-    --line:#232D42;
-    --text:#E9EDF5;
-    --text-dim:#8B93A7;
-    --text-faint:#4E5871;
-
-    --espacial:#7C5CFF;
+  :root {
+    --bg: #0A0E17;
+    --bg-2: #0F1522;
+    --surface: #131A2A;
+    --surface-2: #1A2338;
+    --line: #232D42;
+    --text: #E9EDF5;
+    --text-dim: #8B93A7;
+    --text-faint: #4E5871;
+    --espacial: #7C5CFF;
     --espacial-dim: rgba(124,92,255,0.14);
-    --aero:#2FA8FF;
+    --aero: #2FA8FF;
     --aero-dim: rgba(47,168,255,0.14);
-    --auto:#FF6A3D;
+    --auto: #FF6A3D;
     --auto-dim: rgba(255,106,61,0.14);
-    --ciencias:#33D6A6;
+    --ciencias: #33D6A6;
     --ciencias-dim: rgba(51,214,166,0.14);
-
-    --radius:14px;
+    --radius: 14px;
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter',sans-serif;
-    overflow-x:hidden;
-    position:relative;
-  }
-  ::selection{background:var(--espacial);color:#fff;}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; position: relative; }
+  ::selection { background: var(--espacial); color: #fff; }
 
-  /* Blueprint grid background */
-  .grid-bg{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    background-image:
-      linear-gradient(rgba(124,92,255,0.055) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124,92,255,0.055) 1px, transparent 1px);
-    background-size:56px 56px;
+  .grid-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background-image: linear-gradient(rgba(124,92,255,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.055) 1px, transparent 1px);
+    background-size: 56px 56px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 85%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 85%);
-    pointer-events:none;
+    pointer-events: none;
   }
-  .scan{
-    position:fixed;
-    top:0; left:0; right:0; height:2px;
-    background:linear-gradient(90deg, transparent, rgba(124,92,255,0.65), transparent);
-    animation: scan-move 7s linear infinite;
-    z-index:1;
-    pointer-events:none;
-    opacity:0.6;
+  .scan {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(124,92,255,0.65), transparent);
+    animation: scan-move 7s linear infinite; z-index: 1; pointer-events: none; opacity: 0.6;
   }
-  @keyframes scan-move{
-    0%{ transform:translateY(0); }
-    100%{ transform:translateY(100vh); }
+  @keyframes scan-move {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
   }
 
-  .wrap{max-width:1180px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
 
-  /* NAV */
-  nav{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:26px 0;
-  }
-  .logo{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:19px;
-    letter-spacing:0.02em;
-    display:flex; align-items:center; gap:9px;
-  }
-  .logo-dot{
-    width:9px;height:9px;border-radius:2px;
-    background:linear-gradient(135deg,var(--espacial),var(--ciencias));
-    transform:rotate(45deg);
-    flex-shrink:0;
-  }
-  .navlinks{
-    display:flex; gap:34px; list-style:none;
-    font-size:13.5px; letter-spacing:0.03em; color:var(--text-dim);
-    font-family:'JetBrains Mono',monospace;
-  }
-  .navlinks a{color:inherit; text-decoration:none; transition:color .2s;}
-  .navlinks a:hover{color:var(--text);}
-  .navlinks li{position:relative;}
-  .navlinks li::before{
-    content:attr(data-n);
-    color:var(--text-faint);
-    margin-right:6px;
-  }
-  @media(max-width:820px){ .navlinks{display:none;} }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 9px; }
+  .logo-dot { width: 9px; height: 9px; border-radius: 2px; background: linear-gradient(135deg, var(--espacial), var(--ciencias)); transform: rotate(45deg); flex-shrink: 0; }
+  .navlinks { display: flex; gap: 34px; list-style: none; font-size: 13.5px; letter-spacing: 0.03em; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+  .navlinks a { color: inherit; text-decoration: none; transition: color .2s; }
+  .navlinks a:hover { color: var(--text); }
+  .navlinks li { position: relative; }
+  .navlinks li::before { content: attr(data-n); color: var(--text-faint); margin-right: 6px; }
+  @media(max-width:820px) { .navlinks { display: none; } }
 
-  /* HERO */
-  .hero{
-    padding:96px 0 60px;
-    position:relative;
-  }
-  .eyebrow{
-    font-family:'JetBrains Mono',monospace;
-    font-size:12.5px;
-    color:var(--text-dim);
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:26px;
-  }
-  .eyebrow::before{
-    content:'';
-    width:7px; height:7px; border-radius:50%;
-    background:var(--ciencias);
-    box-shadow:0 0 0 3px rgba(51,214,166,0.18);
-  }
-  h1{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:600;
-    font-size:clamp(38px, 5.6vw, 68px);
-    line-height:1.04;
-    letter-spacing:-0.02em;
-    max-width:820px;
-  }
-  h1 .accent{
-    background:linear-gradient(100deg, var(--espacial), var(--aero) 40%, var(--ciencias) 75%, var(--auto));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .hero p.lead{
-    margin-top:24px;
-    font-size:17px;
-    line-height:1.65;
-    color:var(--text-dim);
-    max-width:560px;
-  }
+  .hero { padding: 96px 0 60px; position: relative; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+  .eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ciencias); box-shadow: 0 0 0 3px rgba(51,214,166,0.18); }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(38px, 5.6vw, 68px); line-height: 1.04; letter-spacing: -0.02em; max-width: 820px; }
+  h1 .accent { background: linear-gradient(100deg, var(--espacial), var(--aero) 40%, var(--ciencias) 75%, var(--auto)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lead { margin-top: 24px; font-size: 17px; line-height: 1.65; color: var(--text-dim); max-width: 560px; }
 
-  /* MODE SWITCH — the signature element */
-  .mode-panel{
-    margin-top:48px;
-    display:inline-flex;
-    align-items:center;
-    gap:0;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:6px;
-    position:relative;
-  }
-  .mode-panel::before{
-    content:'MODO';
-    position:absolute;
-    top:-22px; left:2px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:10.5px;
-    letter-spacing:0.16em;
-    color:var(--text-faint);
-  }
-  .mode-btn{
-    font-family:'JetBrains Mono',monospace;
-    font-size:12.5px;
-    letter-spacing:0.05em;
-    padding:11px 20px;
-    border-radius:8px;
-    border:none;
-    background:transparent;
-    color:var(--text-dim);
-    cursor:pointer;
-    transition:color .25s;
-    position:relative;
-    z-index:2;
-  }
-  .mode-panel[data-mode="explorador"] .mode-btn.explorador,
-  .mode-panel[data-mode="ingeniero"] .mode-btn.ingeniero{
-    color:#04070d;
-  }
-  .mode-thumb{
-    position:absolute;
-    top:6px; bottom:6px; left:6px;
-    width:calc(50% - 6px);
-    border-radius:8px;
-    background:linear-gradient(120deg,var(--ciencias),var(--aero));
-    transition:transform .32s cubic-bezier(.65,0,.35,1);
-    z-index:1;
-  }
-  .mode-panel[data-mode="ingeniero"] .mode-thumb{
-    transform:translateX(100%);
-    background:linear-gradient(120deg,var(--espacial),var(--auto));
-  }
-  .mode-hint{
-    margin-top:20px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;
-    color:var(--text-dim);
-    max-width:820px;
-    line-height:1.7;
-    border-left: 2px solid var(--line);
-    padding-left: 16px;
-  }
-  .mode-hint strong{
-    color: var(--text);
-  }
+  .mode-panel { margin-top: 48px; display: inline-flex; align-items: center; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px; position: relative; }
+  .mode-panel::before { content: 'MODO'; position: absolute; top: -22px; left: 2px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; color: var(--text-faint); }
+  .mode-btn { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: 0.05em; padding: 11px 20px; border-radius: 8px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; transition: color .25s; position: relative; z-index: 2; }
+  .mode-panel[data-mode="explorador"] .mode-btn.explorador, .mode-panel[data-mode="ingeniero"] .mode-btn.ingeniero { color: #04070d; }
+  .mode-thumb { position: absolute; top: 6px; bottom: 6px; left: 6px; width: calc(50% - 6px); border-radius: 8px; background: linear-gradient(120deg, var(--ciencias), var(--aero)); transition: transform .32s cubic-bezier(.65,0,.35,1); z-index: 1; }
+  .mode-panel[data-mode="ingeniero"] .mode-thumb { transform: translateX(100%); background: linear-gradient(120deg, var(--espacial), var(--auto)); }
+  .mode-hint { margin-top: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); max-width: 820px; line-height: 1.7; border-left: 2px solid var(--line); padding-left: 16px; }
+  .mode-hint strong { color: var(--text); }
 
-  /* MODULES */
-  .modules{
-    padding:70px 0 100px;
-    position:relative;
-  }
-  .modules-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    margin-bottom:34px;
-    flex-wrap:wrap;
-    gap:16px;
-  }
-  .modules-head h2{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:26px;
-    font-weight:600;
-  }
-  .modules-head span{
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    color:var(--text-faint);
-  }
-  .grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-  }
-  @media(max-width:760px){ .grid{grid-template-columns:1fr;} }
+  .modules { padding: 70px 0 100px; position: relative; }
+  .modules-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 34px; flex-wrap: wrap; gap: 16px; }
+  .modules-head h2 { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600; }
+  .modules-head span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-faint); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media(max-width:760px) { .grid { grid-template-columns: 1fr; } }
 
-  /* Enlaces de las tarjetas sin estilos raros */
-  .card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
+  .card-link { text-decoration: none; color: inherit; display: block; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 26px 24px; position: relative; overflow: hidden; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; cursor: pointer; }
+  .card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(420px circle at var(--mx,50%) var(--my,0%), var(--glow,transparent), transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .card:hover::after { opacity: 1; }
+  .card:hover { transform: translateY(-3px); }
 
-  .card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:28px 26px 24px;
-    position:relative;
-    overflow:hidden;
-    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-    cursor:pointer;
-  }
-  .card::after{
-    content:'';
-    position:absolute; inset:0;
-    background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%), var(--glow,transparent), transparent 60%);
-    opacity:0;
-    transition:opacity .3s;
-    pointer-events:none;
-  }
-  .card:hover::after{opacity:1;}
-  .card:hover{ transform:translateY(-3px); }
+  .card[data-m="espacial"] { --glow: var(--espacial-dim); }
+  .card[data-m="aero"] { --glow: var(--aero-dim); }
+  .card[data-m="auto"] { --glow: var(--auto-dim); }
+  .card[data-m="ciencias"] { --glow: var(--ciencias-dim); }
+  .card[data-m="espacial"]:hover { border-color: rgba(124,92,255,0.45); }
+  .card[data-m="aero"]:hover { border-color: rgba(47,168,255,0.45); }
+  .card[data-m="auto"]:hover { border-color: rgba(255,106,61,0.45); }
+  .card[data-m="ciencias"]:hover { border-color: rgba(51,214,166,0.45); }
 
-  .card[data-m="espacial"]{ --glow: var(--espacial-dim); }
-  .card[data-m="aero"]{ --glow: var(--aero-dim); }
-  .card[data-m="auto"]{ --glow: var(--auto-dim); }
-  .card[data-m="ciencias"]{ --glow: var(--ciencias-dim); }
-  .card[data-m="espacial"]:hover{ border-color:rgba(124,92,255,0.45); }
-  .card[data-m="aero"]:hover{ border-color:rgba(47,168,255,0.45); }
-  .card[data-m="auto"]:hover{ border-color:rgba(255,106,61,0.45); }
-  .card[data-m="ciencias"]:hover{ border-color:rgba(51,214,166,0.45); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
+  .icon-box { width: 46px; height: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line); }
+  .card[data-m="espacial"] .icon-box { background: var(--espacial-dim); color: var(--espacial); }
+  .card[data-m="aero"] .icon-box { background: var(--aero-dim); color: var(--aero); }
+  .card[data-m="auto"] .icon-box { background: var(--auto-dim); color: var(--auto); }
+  .card[data-m="ciencias"] .icon-box { background: var(--ciencias-dim); color: var(--ciencias); }
+  .icon-box svg { width: 24px; height: 24px; }
 
-  .card-top{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    margin-bottom:22px;
-  }
-  .icon-box{
-    width:46px; height:46px;
-    border-radius:10px;
-    display:flex; align-items:center; justify-content:center;
-    border:1px solid var(--line);
-  }
-  .card[data-m="espacial"] .icon-box{ background:var(--espacial-dim); color:var(--espacial); }
-  .card[data-m="aero"] .icon-box{ background:var(--aero-dim); color:var(--aero); }
-  .card[data-m="auto"] .icon-box{ background:var(--auto-dim); color:var(--auto); }
-  .card[data-m="ciencias"] .icon-box{ background:var(--ciencias-dim); color:var(--ciencias); }
-  .icon-box svg{width:24px;height:24px;}
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; color: var(--text-faint); border: 1px solid var(--line); border-radius: 20px; padding: 5px 10px; }
+  .card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 600; margin-bottom: 9px; }
+  .card p.desc { font-size: 14.5px; line-height: 1.6; color: var(--text-dim); min-height: 66px; }
+  .card .topics { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); border-top: 1px solid var(--line); padding-top: 14px; }
+  .card .topics span { border: none; padding: 0; }
+  .card .topics span::before { content: '· '; }
 
-  .tag{
-    font-family:'JetBrains Mono',monospace;
-    font-size:10.5px;
-    letter-spacing:0.08em;
-    color:var(--text-faint);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:5px 10px;
-  }
-  .card h3{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:21px;
-    font-weight:600;
-    margin-bottom:9px;
-  }
-  .card p.desc{
-    font-size:14.5px;
-    line-height:1.6;
-    color:var(--text-dim);
-    min-height:66px;
-  }
-  .card .topics{
-    margin-top:18px;
-    display:flex; flex-wrap:wrap; gap:8px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    color:var(--text-faint);
-  }
-  .card .topics{ border-top:1px solid var(--line); padding-top:14px; }
-  .card .topics span{ border:none; padding:0; }
-  .card .topics span::before{ content:'· '; }
+  footer { border-top: 1px solid var(--line); padding: 34px 0 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  footer p { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-faint); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); }
+  .legend i { width: 7px; height: 7px; border-radius: 2px; display: inline-block; transform: rotate(45deg); }
 
-  /* FOOTER */
-  footer{
-    border-top:1px solid var(--line);
-    padding:34px 0 50px;
-    display:flex; justify-content:space-between; align-items:center;
-    flex-wrap:wrap; gap:14px;
-  }
-  footer p{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11.5px;
-    color:var(--text-faint);
-  }
-  .legend{
-    display:flex; gap:16px; flex-wrap:wrap;
-  }
-  .legend span{
-    display:flex; align-items:center; gap:6px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    color:var(--text-faint);
-  }
-  .legend i{ width:7px; height:7px; border-radius:2px; display:inline-block; transform:rotate(45deg); }
+  .hero-slideshow { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; border-radius: inherit; -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, #000 40%, transparent 90%); mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, #000 40%, transparent 90%); }
+  .hero-slideshow img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: right center; opacity: 0; pointer-events: none; user-select: none; filter: brightness(1.1) contrast(1.1); animation-name: hero-fade-cycle; animation-duration: 24s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+  .hero-slideshow img:nth-of-type(1) { animation-delay: 0s; object-position: right center; }
+  .hero-slideshow img:nth-of-type(2) { animation-delay: 6s; object-position: right 30%; }
+  .hero-slideshow img:nth-of-type(3) { animation-delay: 12s; object-position: right center; }
+  .hero-slideshow img:nth-of-type(4) { animation-delay: 18s; object-position: right center; }
 
-  /* ============================================================
-     HERO BACKGROUND SLIDESHOW 
-     ============================================================ */
-  .hero-slideshow{
-    position:absolute;
-    inset:0;
-    z-index:-1;
-    overflow:hidden;
-    pointer-events:none;
-    border-radius:inherit;
-    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, #000 40%, transparent 90%);
-    mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, #000 40%, transparent 90%);
-  }
-  .hero-slideshow img{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit: contain;
-    object-position: right center;
-    opacity:0;
-    pointer-events:none;
-    user-select:none;
-    filter: brightness(1.1) contrast(1.1);
-    animation-name:hero-fade-cycle;
-    animation-duration:24s;
-    animation-iteration-count:infinite;
-    animation-timing-function:ease-in-out;
-  }
-  
-  .hero-slideshow img:nth-of-type(1){ animation-delay:0s; object-position: right center; }
-  .hero-slideshow img:nth-of-type(2){ animation-delay:6s; object-position: right 30%; }
-  .hero-slideshow img:nth-of-type(3){ animation-delay:12s; object-position: right center; }
-  .hero-slideshow img:nth-of-type(4){ animation-delay:18s; object-position: right center; }
-
-  @keyframes hero-fade-cycle{
-    0%   { opacity:0; }
-    3%   { opacity:0.28; }
-    17%  { opacity:0.28; }
-    20%  { opacity:0; }
-    100% { opacity:0; }
-  }
-
-  @media(max-width:820px){
-    .hero-slideshow img{ filter:grayscale(35%) contrast(1.05) brightness(1.05); }
-  }
+  @keyframes hero-fade-cycle { 0% { opacity: 0; } 3% { opacity: 0.28; } 17% { opacity: 0.28; } 20% { opacity: 0; } 100% { opacity: 0; } }
+  @media(max-width:820px) { .hero-slideshow img { filter: grayscale(35%) contrast(1.05) brightness(1.05); } }
 </style>
 </head>
 <body data-mode="explorador">
@@ -420,7 +156,7 @@
       </div>
 
       <div class="eyebrow">Plataforma educativa · Ingeniería aplicada</div>
-      <h1>Entiende cómo funciona <span class="accent">las cosas que te rodean.</span></h1>
+      <h1>Entiende cómo funciona <span class="accent">lo que vuela, rueda y despega.</span></h1>
       <p class="lead">Contenido técnico explicado con claridad y simuladores para practicar lo aprendido, organizado en cuatro disciplinas. Un mismo tema, dos profundidades: elige tu nivel.</p>
 
       <div class="mode-panel" data-mode="explorador" id="modePanel">
@@ -429,9 +165,8 @@
         <button class="mode-btn ingeniero" data-set="ingeniero">INGENIERO</button>
       </div>
       
-      <!-- TU MENSAJE PERSONALIZADO -->
       <p class="mode-hint">
-        <strong>Hola, te saluda Diego Ramirez, creador de este sitio en desarrollo.</strong> Este proyecto, más que una plataforma es un sitio de aprendizaje libre. No tocamos los temas como se ven en una institución educativa formal pero creé esto con el fin de que cualquier person sin importar su nivel de estudios pueda entender todo lo relacionado a estos temas. Iniciar aprendiendo como cualquiera de nosotros: por curiosidad, interés o diversión, como cualquier explorador, para que con esas herramientas se pueda llegar a entender a niveles más técnicos y formales como en un modo "ingeniero". Apasiónense, disfruten y sobre todo sigan investigando más allá de lo que se ve aquí. Este es apenas quizá para algunos, el primer contacto con estos temas y para otros algo ya conocido; en cualquiera de los dos casos aconsejo lo mismo: sigan buscando e investigando. Sean curiosos, espontáneos, atrevidos y abiertos a pensar, idear, descubrir y por qué no, a inventar y crear cosas que aún no hemos descubierto. Así sin más, bienvenidos.
+        <strong>Hola, te saluda Diego Ramirez, creador de este sitio en desarrollo.</strong> Este proyecto, más que una plataforma, es un sitio de aprendizaje libre. No tocamos los temas como se ven en una institución educativa formal, pero creé esto con el fin de que cualquier persona, sin importar su nivel de estudios, pueda entender todo lo relacionado a estos temas. Iniciar aprendiendo como cualquiera de nosotros: por curiosidad, interés o diversión, como cualquier explorador, para que con esas herramientas se pueda llegar a entender a niveles más técnicos y formales como en un modo "ingeniero". Apasiónense, disfruten y, sobre todo, sigan investigando más allá de lo que se ve aquí. Este es apenas, quizá para algunos, el primer contacto con estos temas y, para otros, algo ya conocido; en cualquiera de los dos casos aconsejo lo mismo: sigan buscando e investigando. Sean curiosos, espontáneos, atrevidos y abiertos a pensar, idear, descubrir y, por qué no, a inventar y crear cosas que aún no hemos descubierto. Así sin más, bienvenidos.
       </p>
     </section>
 
@@ -442,8 +177,6 @@
       </div>
 
       <div class="grid">
-
-        <!-- TARJETA 1: ESPACIAL -->
         <a href="espacial.html" class="card-link">
           <div class="card" data-m="espacial" id="espacial">
             <div class="card-top">
@@ -453,12 +186,11 @@
               <span class="tag">01 / ESPACIAL</span>
             </div>
             <h3>Módulo Espacial</h3>
-            <p class="desc" data-explorador="Cómo un cohete llega al espacio y qué hace que un satélite se mantenga en órbita." data-ingeniero="Propulsión, mecánica orbital, estructuras y sistemas de cohetes y satélites, con simuladores de trayectoria y empuje, etc..">Cómo un cohete llega al espacio y qué hace que un satélite se mantenga en órbita.</p>
+            <p class="desc" data-explorador="Cómo un cohete llega al espacio y qué hace que un satélite se mantenga en órbita." data-ingeniero="Propulsión, mecánica orbital, estructuras y sistemas de cohetes y satélites, con simuladores de trayectoria y empuje.">Cómo un cohete llega al espacio y qué hace que un satélite se mantenga en órbita.</p>
             <div class="topics"><span>Cohetes</span><span>Satélites</span><span>Órbitas</span></div>
           </div>
         </a>
 
-        <!-- TARJETA 2: AERONÁUTICO -->
         <a href="aeronautico.html" class="card-link">
           <div class="card" data-m="aero" id="aero">
             <div class="card-top">
@@ -468,12 +200,11 @@
               <span class="tag">02 / AERO</span>
             </div>
             <h3>Módulo Aeronáutico</h3>
-            <p class="desc" data-explorador="Por qué un avión se sostiene en el aire y cómo se controla en vuelo." data-ingeniero="Aerodinámica, sustentación, sistemas de control de vuelo y motores a reacción, con simuladores de perfiles alares etc.">Por qué un avión se sostiene en el aire y cómo se controla en vuelo.</p>
+            <p class="desc" data-explorador="Por qué un avión se sostiene en el aire y cómo se controla en vuelo." data-ingeniero="Aerodinámica, sustentación, sistemas de control de vuelo y motores a reacción, con simuladores de perfiles alares.">Por qué un avión se sostiene en el aire y cómo se controla en vuelo.</p>
             <div class="topics"><span>Aerodinámica</span><span>Motores</span><span>Vuelo</span></div>
           </div>
         </a>
 
-        <!-- TARJETA 3: AUTOMOCIÓN -->
         <a href="automocion.html" class="card-link">
           <div class="card" data-m="auto" id="auto">
             <div class="card-top">
@@ -483,12 +214,11 @@
               <span class="tag">03 / AUTO</span>
             </div>
             <h3>Módulo Automoción</h3>
-            <p class="desc" data-explorador="Cómo funciona un motor y qué convierte la gasolina o la electricidad en movimiento." data-ingeniero="Ciclos termodinámicos, transmisión, motores de combustión y eléctricos, con simuladores de par y consumo etc..">Cómo funciona un motor y qué convierte la gasolina o la electricidad en movimiento.</p>
+            <p class="desc" data-explorador="Cómo funciona un motor y qué convierte la gasolina o la electricidad en movimiento." data-ingeniero="Ciclos termodinámicos, transmisión, motores de combustión y eléctricos, con simuladores de par y consumo.">Cómo funciona un motor y qué convierte la gasolina o la electricidad en movimiento.</p>
             <div class="topics"><span>Motores</span><span>Transmisión</span><span>Coches</span></div>
           </div>
         </a>
 
-        <!-- TARJETA 4: CIENCIAS -->
         <a href="ciencias.html" class="card-link">
           <div class="card" data-m="ciencias" id="ciencias">
             <div class="card-top">
@@ -498,11 +228,10 @@
               <span class="tag">04 / BASE</span>
             </div>
             <h3>Ciencias Fundamentales</h3>
-            <p class="desc" data-explorador="Las matemáticas, la física y la química que hacen posible todo lo demás." data-ingeniero="Fundamentos de física, matemáticas, química y ciencia de materiales que sostienen a los otros tres módulos, y algunos otros datos.">Las matemáticas, la física y la química que hacen posible todo lo demás.</p>
+            <p class="desc" data-explorador="Las matemáticas, la física y la química que hacen posible todo lo demás." data-ingeniero="Fundamentos de física, matemáticas, química y ciencia de materiales que sostienen a los otros tres módulos.">Las matemáticas, la física y la química que hacen posible todo lo demás.</p>
             <div class="topics"><span>Física</span><span>Matemáticas</span><span>Materiales</span></div>
           </div>
         </a>
-
       </div>
     </section>
 
@@ -522,7 +251,6 @@
   const buttons = panel.querySelectorAll('.mode-btn');
   buttons.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      // Evita que el click en el botón active el enlace del contenedor
       e.preventDefault(); 
       const mode = btn.dataset.set;
       panel.dataset.mode = mode;
@@ -543,4 +271,3 @@
 </script>
 </body>
 </html>
-
