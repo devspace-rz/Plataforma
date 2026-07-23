@@ -173,7 +173,7 @@
                 </div>
               </li>
 
-              <li class="tema-item">
+              <li class="tema-item" onclick="cargarContenido('motores')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 </div>
@@ -240,6 +240,120 @@
         if (item.desarrollado) {
           div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
           div.onclick = () => { document.getElementById('mainContent').innerText = `Cargando interfaz para: ${item.tema}...`; searchResults.style.display = 'none'; };
+        } else {
+          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
+        }
+      } else {
+        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
+      }
+      searchResults.appendChild(div);
+    });
+    searchResults.style.display = 'block';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
+  });
+  // Modo de interfaz (Explorador / Ingeniero)
+  function setMode(mode) { document.body.dataset.mode = mode; }
+  const CURRENT_MODULE = 'aeronautico'; // (Cámbialo según el módulo en el que estés: espacial, automocion, ciencias)
+
+  // ==========================================
+  // DICCIONARIO GENERAL DE CONTENIDOS
+  // (Aquí puedes agregar todos los temas que quieras hacia abajo)
+  // ==========================================
+  const contenidoTemas = {
+    motores: {
+      explorador: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción</h2>
+        <p>Un motor a reacción funciona bajo la tercera ley de Newton (acción y reacción). Toma aire del exterior a gran velocidad, lo comprime, lo mezcla con combustible, lo enciende provocando una explosión controlada y lo expulsa con mucha fuerza por la parte trasera, impulsando el avión hacia adelante.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción (Análisis Técnico)</h2>
+        <p>El ciclo termodinámico ideal que rige a los turborreactores es el <strong>Ciclo Brayton</strong>. El análisis del empuje neto se formula mediante la siguiente ecuación fundamental:</p>
+        <p style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin-top: 10px;">
+          Fn = m_dot * (ve - v0) + Ae * (pe - p0)
+        </p>
+        <p style="margin-top: 10px;">Donde m_dot representa el flujo másico, ve la velocidad de escape y pe la presión estática en la salida de la tobera.</p>
+      `
+    },
+    aerodinamica: {
+      explorador: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental</h2>
+        <p>Estudia cómo el aire fluye alrededor de los objetos y cómo las alas de los aviones aprovechan la forma para generar la fuerza de sustentación que los eleva por los cielos.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental (Ingeniería)</h2>
+        <p>Estudio de los campos de presión y velocidad regidos por las ecuaciones de Navier-Stokes, perfiles alares simétricos/asimétricos y el coeficiente de sustentación ($C_L$).</p>
+      `
+    }
+    // Para agregar un tema nuevo en el futuro, solo añade una coma arriba y escribe:
+    // tuNuevoId: { explorador: "...", ingeniero: "..." }
+  };
+
+  // ==========================================
+  // FUNCIÓN GENERAL UNIVERSAL
+  // ==========================================
+  function cargarContenido(temaId) {
+    const mainContent = document.getElementById('mainContent');
+    const modoActual = document.body.dataset.mode; // Detecta si estás en 'explorador' o 'ingeniero'
+    const tema = contenidoTemas[temaId];
+
+    if (!tema) return;
+
+    // Inyecta el botón de retorno y el texto correspondiente al modo activo
+    mainContent.innerHTML = `
+      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px; cursor: pointer;">← Volver a los temas</button>
+      ${tema[modoActual]}
+    `;
+  }
+
+  // Función para restaurar la vista principal de la lista
+  function regresarLista() {
+    location.reload();
+  }
+
+  // ==========================================
+  // BARRAS DE BÚSQUEDA INTELIGENTE
+  // ==========================================
+  const database = [
+    { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
+    { tema: "Propulsión de cohetes", modulo: "espacial", desarrollado: true },
+    { tema: "Sistemas en cohetes", modulo: "espacial", desarrollado: false },
+    { tema: "Perfiles alares y sustentación", modulo: "aeronautico", desarrollado: true },
+    { tema: "Motores a reacción", modulo: "aeronautico", desarrollado: false },
+    { tema: "Motores de combustión", modulo: "automocion", desarrollado: true },
+    { tema: "Transmisiones mecánicas", modulo: "automocion", desarrollado: false },
+    { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
+    { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false }
+  ];
+
+  const searchBox = document.getElementById('searchBox');
+  const searchResults = document.getElementById('searchResults');
+
+  searchBox.addEventListener('input', () => {
+    const query = searchBox.value.toLowerCase().trim();
+    searchResults.innerHTML = '';
+    if (!query) { searchResults.style.display = 'none'; return; }
+
+    const matches = database.filter(item => item.tema.toLowerCase().includes(query));
+
+    if (matches.length === 0) {
+      searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
+      searchResults.style.display = 'block';
+      return;
+    }
+
+    matches.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      if (item.modulo === CURRENT_MODULE) {
+        if (item.desarrollado) {
+          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
+          div.onclick = () => { 
+            // Si da clic desde el buscador, puedes mapearlo o dejarlo listo
+            searchResults.style.display = 'none'; 
+          };
         } else {
           div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
         }
