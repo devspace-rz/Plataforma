@@ -132,6 +132,7 @@
   </div>
 
 <script>
+  let temaActualActivo = null;
   function setMode(mode) { document.body.dataset.mode = mode; }
   const CURRENT_MODULE = 'espacial';
 
@@ -149,6 +150,7 @@
   };
 
   function cargarContenido(temaId) {
+    temaActualActivo = temaId;
     const mainContent = document.getElementById('mainContent');
     const modoActual = document.body.dataset.mode;
     const tema = contenidoTemas[temaId];
@@ -170,6 +172,7 @@
     { tema: "Motores de combustión", modulo: "automocion", desarrollado: true },
     { tema: "Transmisiones mecánicas", modulo: "automocion", desarrollado: false },
     { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
+    { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true },
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false }
   ];
 
