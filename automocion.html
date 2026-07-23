@@ -37,7 +37,7 @@
   nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; }
   .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; display: flex; align-items: center; gap: 9px; }
   .logo-dot { width: 9px; height: 9px; border-radius: 2px; background: linear-gradient(135deg, var(--espacial), var(--ciencias)); transform: rotate(45deg); }
-  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; }
+  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
   header { padding: 40px 0 30px; }
@@ -62,7 +62,6 @@
   .content-section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; margin-bottom: 60px; }
   .content-body { font-size: 15.5px; line-height: 1.75; color: var(--text-dim); }
 
-  /* ESTILOS DE LISTA Y SCROLL LATERAL IZQUIERDO */
   .temas-container { background-color: transparent; border-radius: 12px; padding: 10px 0; }
   .scroll-area { max-height: 380px; overflow-y: auto; direction: rtl; padding-left: 20px; }
   .lista-temas { direction: ltr; list-style: none; display: flex; flex-direction: column; padding: 0; margin: 0; }
@@ -94,7 +93,7 @@
     <header>
       <h1 class="mod-title">Módulo de Automoción</h1>
       <div class="welcome-box">
-        Bienvenido al módulo de automoción. Aquí aprenderemos cómo es que pasamos de caminar y del uso de animales, a máquinas para movernos. Antes, las personas dependían de los caballos y el tren. Los caballos eran lentos, se cansaban y causaban problemas de higiene en las ciudades. Los trenes eran rápidos, pero te obligaban a seguir horarios y rutas fijas. El ser humano necesitaba un medio de transporte que fuera rápido, individual y libre; querían decidir a dónde ir y cuándo salir, sin depender de nadie más. La solución: unir la ingeniería con ese deseo de libertad.
+        Bienvenido al módulo de automoción. Aquí aprenderemos cómo es que pasamos de caminar y del uso de animales, a máquinas para movernos con libertad y eficiencia.
       </div>
     </header>
 
@@ -115,23 +114,13 @@
           <div class="scroll-area">
             <ul class="lista-temas">
               
-              <li class="tema-item">
+              <li class="tema-item" onclick="cargarContenido('motoresCombustion')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/><path d="M3 17h2l1.5-6h9L18 17h1"/><path d="M8 11l2-4h4l1 4"/></svg>
                 </div>
                 <div class="tema-info">
                   <h4 class="tema-titulo">Motores de Combustión</h4>
                   <p class="tema-desc">Ciclos de cuatro tiempos y eficiencia térmica</p>
-                </div>
-              </li>
-
-              <li class="tema-item">
-                <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                </div>
-                <div class="tema-info">
-                  <h4 class="tema-titulo">Transmisiones Mecánicas</h4>
-                  <p class="tema-desc">Relaciones de transmisión y cajas de cambios</p>
                 </div>
               </li>
 
@@ -144,7 +133,33 @@
 
 <script>
   function setMode(mode) { document.body.dataset.mode = mode; }
-  const CURRENT_MODULE = 'automocion'; 
+  const CURRENT_MODULE = 'automocion';
+
+  const contenidoTemas = {
+    motoresCombustion: {
+      explorador: `
+        <h2 style="color: var(--auto); margin-bottom: 15px;">Motores de Combustión</h2>
+        <p>Los motores de combustión transforman la energía química del combustible en energía mecánica a través de explosiones controladas dentro de cilindros.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--auto); margin-bottom: 15px;">Motores de Combustión (Análisis Técnico)</h2>
+        <p>Análisis basado en el ciclo Otto y ciclo Diesel ideal, estudiando la relación de compresión, el trabajo indicado y la eficiencia térmica volumétrica.</p>
+      `
+    }
+  };
+
+  function cargarContenido(temaId) {
+    const mainContent = document.getElementById('mainContent');
+    const modoActual = document.body.dataset.mode;
+    const tema = contenidoTemas[temaId];
+    if (!tema) return;
+    mainContent.innerHTML = `
+      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver al temas</button>
+      ${tema[modoActual]}
+    `;
+  }
+
+  function regresarLista() { location.reload(); }
 
   const database = [
     { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
@@ -165,22 +180,19 @@
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
     if (!query) { searchResults.style.display = 'none'; return; }
-
     const matches = database.filter(item => item.tema.toLowerCase().includes(query));
-
     if (matches.length === 0) {
       searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
       searchResults.style.display = 'block';
       return;
     }
-
     matches.forEach(item => {
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
         if (item.desarrollado) {
           div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { document.getElementById('mainContent').innerText = `Cargando interfaz para: ${item.tema}...`; searchResults.style.display = 'none'; };
+          div.onclick = () => { searchResults.style.display = 'none'; };
         } else {
           div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
         }
