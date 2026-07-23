@@ -176,7 +176,7 @@ function setMode(mode) {
       `,
       ingeniero: `
         <h2 style="color: var(--ciencias); margin-bottom: 15px;">Energia, Trabajo y Potencia</h2>
-       <p><strong>1. Energía ($E$):</strong> Propiedad escalar conservada. Su unidad en el Sistema Internacional es el joule:</p>
+       <p><strong>1. Energía ($E$):</strong> La energía es una propiedad escalar de un sistema asociada con su capacidad de producir cambios físicos. Es una magnitud conservada: no se crea ni se destruye; se transfiere entre sistemas o se transforma entre formas. Su unidad en el Sistema Internacional es el joule:</p>
       <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
         1 J = 1 N&middot;m = 1 kg&middot;m<sup>2</sup>/s<sup>2</sup>
       </div>
@@ -190,15 +190,15 @@ function setMode(mode) {
         &bull; <strong>E<sub>p</sub> = mgh:</strong> Energía potencial gravitatoria (en campo uniforme).
       </p>
 
-      <p style="margin-top: 15px;"><strong>Primera Ley de la Termodinámica (Sistema Cerrado):</strong></p>
+      <p style="margin-top: 15px;"><strong>En termodinámica, la primera ley expresa conservación de energía. Para un sistema cerrado:</strong></p>
       <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
         &Delta;E = Q - W
       </div>
-      <p style="font-size: 13.5px; color: var(--text-dim);">Donde $Q$ es el calor transferido y $W$ el trabajo realizado por el sistema.</p>
+      <p style="font-size: 13.5px; color: var(--text-dim);">Donde Q es el calor transferido y W el trabajo realizado por el sistema.</p>
 
-      <p style="margin-top: 15px;"><strong>2. Trabajo ($W$):</strong> Energía transferida por una fuerza a lo largo de un desplazamiento:</p>
+      <p style="margin-top: 15px;"><strong>2. Trabajo (W):</strong>El trabajo es energía transferida por una fuerza cuando su punto de aplicación se desplaza: :</p>
       <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
-        W = &int; F &middot; ds &nbsp;&nbsp;|&nbsp;&nbsp; W = F &middot; d &middot; cos(&theta;)
+        W = &int; F &middot; ds &nbsp;&nbsp;|&nbsp;&nbsp; W = F &middot; d &middot; cos(&theta;) |&nbsp;&nbsp; W=mgh
       </div>
       <p>En flujos estacionarios compresibles (como dentro de una turbina o un compresor), el trabajo específico y la potencia se expresan mediante entalpías:</p>
       <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
@@ -206,11 +206,15 @@ function setMode(mode) {
       </div>
       <p style="font-size: 13.5px; color: var(--text-dim);">Un compresor requiere trabajo para elevar la entalpía y presión; una turbina extrae trabajo al reducirla.</p>
 
-      <p style="margin-top: 15px;"><strong>3. Potencia ($P$):</strong> Rapidez con la que se transfiere energía o se realiza trabajo:</p>
+      <p style="margin-top: 15px;"><strong>3. Potencia(P):</strong> Rapidez con la que se transfiere energía o se realiza trabajo:</p>
       <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
         P = dW / dt = F &middot; V
       </div>
-      <p style="font-size: 13.5px; color: var(--text-dim);">Su unidad es el watt ($1\ \text{W} = 1\ \text{J/s}$).</p>
+      <p style="font-size: 13.5px; color: var(--text-dim);">Su unidad es el watt (1{W} = 1{J/s}).</p>
+       <p style="margin-top: 15px;"><strong>3. Para fuerza y velocidad instantáneas:\[P=\vec{F}\cdot\vec{V}\]Si la fuerza y velocidad están alineadas:\[P=FV\]
+       <p style="font-size: 13.5px; color: var(--text-dim);">Esto permite distinguir dos motores que realizan el mismo trabajo total: el motor que lo hace en menos tiempo tiene mayor potencia.</p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
+        \[\boxed{\text{Energía transferida}=\text{Trabajo}}\]\[\boxed{\text{Potencia}=\frac{\text{Trabajo}}{\text{Tiempo}}}\]o, si la potencia es constante:\[\boxed{W=P\,t}\]Por tanto, la energía es la cantidad total; el trabajo es una forma de transferir esa energía; y la potencia es la tasa temporal con la que ocurre la transferencia.
       `
     }
   };
