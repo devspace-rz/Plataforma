@@ -37,7 +37,7 @@
   nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; }
   .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; display: flex; align-items: center; gap: 9px; }
   .logo-dot { width: 9px; height: 9px; border-radius: 2px; background: linear-gradient(135deg, var(--espacial), var(--ciencias)); transform: rotate(45deg); }
-  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; }
+  .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
   header { padding: 40px 0 30px; }
@@ -49,7 +49,6 @@
   .search-box:focus { border-color: var(--espacial); }
   .search-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-top: 6px; max-height: 200px; overflow-y: auto; z-index: 10; display: none; }
   .result-item { padding: 12px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--line); }
-  .result-item:last-child { border-bottom: none; }
   .result-item:hover { background: rgba(255,255,255,0.03); }
   .status-info { color: var(--auto); font-style: italic; }
   .status-found { color: var(--ciencias); }
@@ -63,7 +62,6 @@
   .content-section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; margin-bottom: 60px; }
   .content-body { font-size: 15.5px; line-height: 1.75; color: var(--text-dim); }
 
-  /* ESTILOS DE LISTA Y SCROLL LATERAL IZQUIERDO */
   .temas-container { background-color: transparent; border-radius: 12px; padding: 10px 0; }
   .scroll-area { max-height: 380px; overflow-y: auto; direction: rtl; padding-left: 20px; }
   .lista-temas { direction: ltr; list-style: none; display: flex; flex-direction: column; padding: 0; margin: 0; }
@@ -95,7 +93,7 @@
     <header>
       <h1 class="mod-title">Módulo Espacial</h1>
       <div class="welcome-box">
-        Bienvenido al módulo espacial. Aquí aprenderemos conceptos relacionados con cohetes, satélites, propulsión, cálculo orbital, sistemas en cohetes, aerodinámica espacial y un sinfín de temas que se desarrollarán a lo largo del tiempo. La ciencia espacial ha sido uno de los mayores hitos en la historia de la humanidad; vivimos, habitamos y nacimos en este planeta, pero el desarrollo, el avance y la curiosidad nos impulsan a llegar más lejos, haciéndonos querer conocer y descubrir nuevos mundos.
+        Bienvenido al módulo espacial. Aquí aprenderemos conceptos relacionados con cohetes, satélites, propulsión, cálculo orbital, sistemas en cohetes, aerodinámica espacial y un sinfín de temas que se desarrollarán a lo largo del tiempo.
       </div>
     </header>
 
@@ -116,33 +114,13 @@
           <div class="scroll-area">
             <ul class="lista-temas">
               
-              <li class="tema-item">
+              <li class="tema-item" onclick="cargarContenido('mecanicaOrbital')">
                 <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c3 3 4 7 4 11l-4 4-4-4c0-4 1-8 4-11z"/><circle cx="12" cy="9" r="1.6"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                 </div>
                 <div class="tema-info">
                   <h4 class="tema-titulo">Mecánica Orbital</h4>
                   <p class="tema-desc">Leyes de Kepler y trayectorias espaciales</p>
-                </div>
-              </li>
-
-              <li class="tema-item">
-                <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                </div>
-                <div class="tema-info">
-                  <h4 class="tema-titulo">Propulsión de Cohetes</h4>
-                  <p class="tema-desc">Ecuación de Tsiolkovski y toberas de escape</p>
-                </div>
-              </li>
-
-              <li class="tema-item">
-                <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-                </div>
-                <div class="tema-info">
-                  <h4 class="tema-titulo">Sistemas en Cohetes</h4>
-                  <p class="tema-desc">Subsistemas de aviónica, telemetría y control</p>
                 </div>
               </li>
 
@@ -155,7 +133,33 @@
 
 <script>
   function setMode(mode) { document.body.dataset.mode = mode; }
-  const CURRENT_MODULE = 'espacial'; 
+  const CURRENT_MODULE = 'espacial';
+
+  const contenidoTemas = {
+    mecanicaOrbital: {
+      explorador: `
+        <h2 style="color: var(--espacial); margin-bottom: 15px;">Mecánica Orbital</h2>
+        <p>Estudia cómo se mueven los objetos en el espacio bajo la influencia de la gravedad, permitiendo entender las órbitas de los satélites y los viajes interplanetarios.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--espacial); margin-bottom: 15px;">Mecánica Orbital (Análisis Técnico)</h2>
+        <p>Basado en las leyes de Kepler y la ley de gravitación universal de Newton, analizando la energía orbital específica y las maniobras de transferencia de Hohmann.</p>
+      `
+    }
+  };
+
+  function cargarContenido(temaId) {
+    const mainContent = document.getElementById('mainContent');
+    const modoActual = document.body.dataset.mode;
+    const tema = contenidoTemas[temaId];
+    if (!tema) return;
+    mainContent.innerHTML = `
+      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>
+      ${tema[modoActual]}
+    `;
+  }
+
+  function regresarLista() { location.reload(); }
 
   const database = [
     { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
@@ -176,22 +180,19 @@
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
     if (!query) { searchResults.style.display = 'none'; return; }
-
     const matches = database.filter(item => item.tema.toLowerCase().includes(query));
-
     if (matches.length === 0) {
       searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
       searchResults.style.display = 'block';
       return;
     }
-
     matches.forEach(item => {
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
         if (item.desarrollado) {
           div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { document.getElementById('mainContent').innerText = `Cargando interfaz para: ${item.tema}...`; searchResults.style.display = 'none'; };
+          div.onclick = () => { searchResults.style.display = 'none'; };
         } else {
           div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
         }
