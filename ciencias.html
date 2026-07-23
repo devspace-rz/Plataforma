@@ -123,6 +123,15 @@
                   <p class="tema-desc">Leyes de la termodinámica y transferencia de calor</p>
                 </div>
               </li>
+               <li class="tema-item" onclick="cargarContenido('energia')">
+                <div class="tema-icono">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.8"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg>
+                </div>
+                <div class="tema-info">
+                  <h4 class="tema-titulo">Energia, Trabajo y Potencia</h4>
+                  <p class="tema-desc">¿Que son y que representan?</p>
+                </div>
+              </li>
 
             </ul>
           </div>
@@ -145,6 +154,57 @@
       ingeniero: `
         <h2 style="color: var(--ciencias); margin-bottom: 15px;">Ciclos Termodinámicos (Análisis Técnico)</h2>
         <p>Aplicación de la primera y segunda ley de la termodinámica, análisis de entropía y balances de energía en sistemas cerrados y abiertos.</p>
+      `
+    },
+    energia: {
+      explorador: `
+        <h2 style="color: var(--ciencias); margin-bottom: 15px;">Energia, Trabajo y Potencia</h2>
+        <p>Imagina que quieres subir una caja a una mesa.</p>
+<p>Energía es lo que tienes disponible para poder hacer algo. Como la “reserva” que te permite moverte, empujar, calentar o encender algo.</p>
+<p>Trabajo es usar esa energía para lograr un cambio. En este caso: empujar la caja y subirla.</p>
+<p>Potencia es qué tan rápido haces ese trabajo. Subir la misma caja en 2 segundos requiere más potencia que subirla en 20 segundos.</p>
+<p>Una forma sencilla de verlo:</p>
+<p>Energía = lo que tienes para hacer algo</p>
+<p>Trabajo = usar esa energía para hacer algo</p>
+<p>Potencia = qué tan rápido lo haces</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--ciencias); margin-bottom: 15px;">Energia, Trabajo y Potencia</h2>
+       <p><strong>1. Energía ($E$):</strong> Propiedad escalar conservada. Su unidad en el Sistema Internacional es el joule:</p>
+      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
+        1 J = 1 N&middot;m = 1 kg&middot;m<sup>2</sup>/s<sup>2</sup>
+      </div>
+      <p>Su formulación general se compone como:</p>
+      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+        E = U + E<sub>k</sub> + E<sub>p</sub>
+      </div>
+      <p style="font-size: 13.5px; color: var(--text-dim);">
+        &bull; <strong>U:</strong> Energía interna (temperatura, composición y estado microscópico).<br>
+        &bull; <strong>E<sub>k</sub> = &frac12;mv<sup>2</sup>:</strong> Energía cinética.<br>
+        &bull; <strong>E<sub>p</sub> = mgh:</strong> Energía potencial gravitatoria (en campo uniforme).
+      </p>
+
+      <p style="margin-top: 15px;"><strong>Primera Ley de la Termodinámica (Sistema Cerrado):</strong></p>
+      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
+        &Delta;E = Q - W
+      </div>
+      <p style="font-size: 13.5px; color: var(--text-dim);">Donde $Q$ es el calor transferido y $W$ el trabajo realizado por el sistema.</p>
+
+      <p style="margin-top: 15px;"><strong>2. Trabajo ($W$):</strong> Energía transferida por una fuerza a lo largo de un desplazamiento:</p>
+      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+        W = &int; F &middot; ds &nbsp;&nbsp;|&nbsp;&nbsp; W = F &middot; d &middot; cos(&theta;)
+      </div>
+      <p>En flujos estacionarios compresibles (como dentro de una turbina o un compresor), el trabajo específico y la potencia se expresan mediante entalpías:</p>
+      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+        w &approx; &Delta;h &nbsp;&nbsp;|&nbsp;&nbsp; W&#775; = m&#775;(h<sub>2</sub> - h<sub>1</sub>)
+      </div>
+      <p style="font-size: 13.5px; color: var(--text-dim);">Un compresor requiere trabajo para elevar la entalpía y presión; una turbina extrae trabajo al reducirla.</p>
+
+      <p style="margin-top: 15px;"><strong>3. Potencia ($P$):</strong> Rapidez con la que se transfiere energía o se realiza trabajo:</p>
+      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
+        P = dW / dt = F &middot; V
+      </div>
+      <p style="font-size: 13.5px; color: var(--text-dim);">Su unidad es el watt ($1\ \text{W} = 1\ \text{J/s}$).</p>
       `
     }
   };
@@ -173,6 +233,7 @@
     { tema: "Transmisiones mecánicas", modulo: "automocion", desarrollado: false },
     { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
     { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true },
+    { tema: "Energia, Trabajo y Potencia", modulo: "ciencias", desarrollado: true },  
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false }
   ];
 
