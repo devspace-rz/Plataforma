@@ -229,63 +229,57 @@
         <p style="margin-top: 10px;">Donde m_dot representa el flujo másico, ve la velocidad de escape y pe la presión estática en la salida de la tobera.</p>
       `
     },
-    prop: {
+   prop: {
       explorador: `
         <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción</h2>
-        <p>Imagina que estás en una patineta y tienes muchos globos llenos de aire. Si aprietas un globo y el aire sale disparado hacia atrás, tú y la patineta se mueven hacia adelante. Eso es la idea principal de la propulsión.<p>
-       <p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama empuje. Un motor de avión toma aire de delante, lo aprieta y lo acelera para expulsarlo muy rápido hacia atrás. Como respuesta, el avión recibe un “empujón” hacia adelante.<p>
-        <p>Ese empujón es el empuje.Esto sucede por las leyes de Newton:<p>
-<p>Tercera ley de Newton: “Para cada acción hay una reacción igual y opuesta.”<p>
-<p>Si el motor empuja aire hacia atrás, el aire “empuja” al motor —y al avión— hacia adelante.<p>
-
-<p>Segunda ley de Newton: Cuanto más aceleres una masa, mayor fuerza puedes producir.<p>
-<p>Es decir: si el motor hace salir mucho aire, o lo hace salir mucho más rápido, el empuje aumenta.<p>
-
-     `,
-     ingeniero: `
+        <p>Imagina que estás en una patineta y tienes muchos globos llenos de aire. Si aprietas un globo y el aire sale disparado hacia atrás, tú y la patineta se mueven hacia adelante. Eso es la idea principal de la propulsión.</p>
+        <p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama empuje. Un motor de avión toma aire de delante, lo aprieta y lo acelera para expulsarlo muy rápido hacia atrás. Como respuesta, el avión recibe un “empujón” hacia adelante.</p>
+        <p>Ese empujón es el empuje. Esto sucede por las leyes de Newton:</p>
+        <p><strong>Tercera ley de Newton:</strong> “Para cada acción hay una reacción igual y opuesta.” Si el motor empuja aire hacia atrás, el aire “empuja” al motor —y al avión— hacia adelante.</p>
+        <p><strong>Segunda ley de Newton:</strong> Cuanto más aceleres una masa, mayor fuerza puedes producir. Es decir: si el motor hace salir mucho aire, o lo hace salir mucho más rápido, el empuje aumenta.</p>
+      `,
+      ingeniero: `
         <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción (Análisis Técnico)</h2>
-        <p>Propulsion: Proceso de generar una fuerza F para mover un objeto a través de un medio, generalmente mediante la aceleración de una masa (de aire o gases) expulsada a alta velocidad.<p>
-        <p>La propulsión se refiere al uso de motores para crear el empuje que desplaza la aeronave.<p> 
-        <p>Empuje:Fuerza de reacción descrita cuantitativamente por la tercera ley de Newton. En los aviones el empuje se genera por la aplicación de las leyes de Newton, usualmente la 2a y 3a ley de newton, es decir: un gas o un fluido es acelerado a través del motor y la reacción a esta masa acelerada produce una fuerza sobre el mismo.<p>
-        <p>De aquí desprendemos dos términos:<p>
-<p>Reacción y Energía<p>
-<p>Reacción. Todos los sistemas de propulsión en aviación se basan en el principio de reacción del flujo de aire que pasa a través de un motor o bien en la aceleración de un flujo de aire a través del motor.<p>
-<p>La reacción es que el aire se acelera a través del motor.<p>
-<h2 style="color: var(--aero); margin-bottom: 15px;">Ecuación General de Empuje (Análisis Técnico)</h2>
-      
-      <p><strong>Fuerza:</strong> Cambio en el momentum con el tiempo.</p>
-      <p>Momentum: Pasar de velocidad 0 a velocidad $x$ (Transición de estado estacionario a dinámico).</p>
-      
-      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
-        Momentum: m &times; v &rarr; F = M (dv/dt) = ma
-      </div>
+        <p><strong>Propulsión:</strong> Proceso de generar una fuerza F para mover un objeto a través de un medio, generalmente mediante la aceleración de una masa (de aire o gases) expulsada a alta velocidad.</p>
+        <p>La propulsión se refiere al uso de motores para crear el empuje que desplaza la aeronave.</p>
+        <p><strong>Empuje:</strong> Fuerza de reacción descrita cuantitativamente por la tercera ley de Newton. En los aviones el empuje se genera por la aplicación de las leyes de Newton, usualmente la 2a y 3a ley de Newton, es decir: un gas o un fluido es acelerado a través del motor y la reacción a esta masa acelerada produce una fuerza sobre el mismo.</p>
+        <p>De aquí desprendemos dos términos: <strong>Reacción y Energía</strong>.</p>
+        <p><strong>Reacción:</strong> Todos los sistemas de propulsión en aviación se basan en el principio de reacción del flujo de aire que pasa a través de un motor o bien en la aceleración de un flujo de aire a través del motor.</p>
+        
+        <h2 style="color: var(--aero); margin-bottom: 15px; margin-top: 20px;">Ecuación General de Empuje (Análisis Técnico)</h2>
+        <p><strong>Fuerza:</strong> Cambio en el momentum con el tiempo.</p>
+        <p>Momentum: Pasar de velocidad 0 a velocidad $x$ (Transición de estado estacionario a dinámico).</p>
+        
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
+          Momentum: m &times; v &rarr; F = M (dv/dt) = ma
+        </div>
 
-      <p>Desarrollo analítico para el volumen de control:</p>
-      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
-        F = (m&middot;v<sub>2</sub> - m&middot;v<sub>1</sub>) / (t<sub>2</sub> - t<sub>1</sub>) &rarr; <strong>F = m&#775;<sub>9</sub>V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub></strong>
-      </div>
+        <p>Desarrollo analítico para el volumen de control:</p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+          F = (m&middot;v<sub>2</sub> - m&middot;v<sub>1</sub>) / (t<sub>2</sub> - t<sub>1</sub>) &rarr; <strong>F = m&#775;<sub>9</sub>V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub></strong>
+        </div>
 
-      <p style="margin-top: 15px;"><strong>Propiedades del flujo másico ($\dot{m}$):</strong></p>
-      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
-        m&#775; = masa / tiempo &nbsp;&nbsp;|&nbsp;&nbsp; m&#775; = &rho; V A &nbsp;&nbsp;|&nbsp;&nbsp; &sum; m&#775;<sub>in</sub> = &sum; m&#775;<sub>out</sub>
-      </div>
+        <p style="margin-top: 15px;"><strong>Propiedades del flujo másico ($\dot{m}$):</strong></p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+          m&#775; = masa / tiempo &nbsp;&nbsp;|&nbsp;&nbsp; m&#775; = &rho; V A &nbsp;&nbsp;|&nbsp;&nbsp; &sum; m&#775;<sub>in</sub> = &sum; m&#775;<sub>out</sub>
+        </div>
 
-      <p><strong>Corrección por diferencia de presiones ($p_9 \neq p_0$):</strong></p>
-      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
-        F = m&#775;<sub>9</sub>V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
-      </div>
+        <p><strong>Corrección por diferencia de presiones ($p_9 \neq p_0$):</strong></p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+          F = m&#775;<sub>9</sub>V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
+        </div>
 
-      <p style="margin-top: 10px; font-size: 13.5px; color: var(--text-dim);">
-        <strong>Nomenclatura:</strong><br>
-        &rho; = Densidad<br>
-        V = Velocidad<br>
-        A = Área
-      </p>
+        <p style="margin-top: 10px; font-size: 13.5px; color: var(--text-dim);">
+          <strong>Nomenclatura:</strong><br>
+          &rho; = Densidad<br>
+          V = Velocidad<br>
+          A = Área
+        </p>
 
-      <p style="margin-top: 15px;"><strong>Ecuación general incluyendo flujo másico de combustible ($m_f$):</strong></p>
-      <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 14px; border-radius: 8px; margin: 15px 0; color: var(--auto); font-weight: bold;">
-        F = (m&#775;<sub>0</sub> + m&#775;<sub>f</sub>)V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
-      </div>
+        <p style="margin-top: 15px;"><strong>Ecuación general incluyendo flujo másico de combustible ($m_f$):</strong></p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 14px; border-radius: 8px; margin: 15px 0; color: var(--auto); font-weight: bold;">
+          F = (m&#775;<sub>0</sub> + m&#775;<sub>f</sub>)V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
+        </div>
       `
     },
     aerodinamica: {
@@ -299,7 +293,15 @@
       `
     }
   };
+let temaActualActivo = null; // Guarda el tema que estás viendo
 
+  function setMode(mode) { 
+    document.body.dataset.mode = mode; 
+    // Si estás leyendo un tema, actualiza el contenido al cambiar de modo en tiempo real
+    if (temaActualActivo) {
+      cargarContenido(temaActualActivo);
+    }
+  }
   function cargarContenido(temaId) {
     const mainContent = document.getElementById('mainContent');
     const modoActual = document.body.dataset.mode;
