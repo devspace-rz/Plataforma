@@ -303,6 +303,7 @@ let temaActualActivo = null; // Guarda el tema que estás viendo
     }
   }
   function cargarContenido(temaId) {
+    temaActualActivo = temaId;
     const mainContent = document.getElementById('mainContent');
     const modoActual = document.body.dataset.mode;
     const tema = contenidoTemas[temaId];
