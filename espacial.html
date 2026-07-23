@@ -133,7 +133,14 @@
 
 <script>
   let temaActualActivo = null;
-  function setMode(mode) { document.body.dataset.mode = mode; }
+   let temaActualActivo = null;
+function setMode(mode) { 
+    document.body.dataset.mode = mode; 
+    // Si estás leyendo un tema, actualiza el contenido al cambiar de modo en tiempo real
+    if (temaActualActivo) {
+      cargarContenido(temaActualActivo);
+    }
+  }
   const CURRENT_MODULE = 'espacial';
 
   const contenidoTemas = {
