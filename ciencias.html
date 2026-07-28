@@ -132,6 +132,15 @@
                   <p class="tema-desc">¿Que son y que representan?</p>
                 </div>
               </li>
+                <li class="tema-item" onclick="cargarContenido('leyesnewton')">
+                <div class="tema-icono">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.8"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg>
+                </div>
+                <div class="tema-info">
+                  <h4 class="tema-titulo">Leyes de la dinamica</h4>
+                  <p class="tema-desc">Como se mueven los objetos y como influyen las fuerzas sobre ellos</p>
+                </div>
+              </li>
 
             </ul>
           </div>
@@ -216,7 +225,37 @@ function setMode(mode) {
         <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
         La energía es la cantidad total; el trabajo es una forma de transferir esa energía; y la potencia es la tasa temporal con la que ocurre la transferencia.
       `
-    }
+    },
+    leyesnewton: {
+      explorador: `
+        <h2 style="color: var(--ciencias); margin-bottom: 15px;">Leyes de la dinamica</h2>
+        <p>Las leyes de Newton explican cómo se mueven los objetos cuando actúan fuerzas sobre ellos. Son la base de gran parte de la mecánica clásica: desde una pelota que se patea hasta el diseño de puentes, autos, robots y cohetes.</p>
+        en 1687 Isaac Newton publico su libro Philosophiae Naturalis Principia Mathematica en este libro expone tres leyes conocidad co las leyes de newton asi como la ley de gravitacion universal.</p>
+       <p>style="margin-top: 15px;"><strong>3. Primera ley:</strong></p> 
+       <p>Reflexionando un poco, ¿Se han preguntado porque los cuerpos en movimiento se detienen?, digamos si empujamos una mesa se detiene en cierto punto, porque no sigue movinedose infinitamente, pues bueno</p>
+        <p>gracias a Galileo Galilei que en base a sus experimentos concluyo lo que ya sabemos, la mesa se detiene porque existe una fuerza de friccion entre la mesa y el piso, una fuerza tal que va contraria al movimiento de la mesa.</p>
+        <p>Pero ¿y si esa fuerza dejara de existir?, al ser totalmente lisa y sin tener aire (Si porque el aire al movernos tambien se opone, hace una fuerza viscoza) al darle el empujon a la mesa continuaria moviendose indefinidamente.</p>
+        <p>Es asi que Galileo enuncia su principio de inercia "En ausencia de la accion de fuerzas un cuerpo en reposo continua en reposo y uno en movimiento se movera en linea recta a velocidad constante".
+       <p> Newton aprovechando los estudios previos enuncio su primera ley, Ley de la inercia, en ella expone lo siguiente: "Un objeto en reposo permanece en reposo, y un objeto en movimiento permanece en movimiento a velocidad constante y en línea recta a menos que actúe sobre él una fuerza desequilibrada."</p>
+       <p> En pocas palabras esto quiere decir que amenos que apliquemos una fuerza o empujon a un objeto en condiciones ideales seguira en el mismo estado en que lo encontramos.</p>
+        <p>Existen muchos ejemplos de esto, por ejemplo cuando viajamos en coche, al frenar bruscamente sentimos como si fueramos hacia adelante, tratando de seguir el movimiento.</p>
+        <p style="margin-top: 15px;"><strong>3. Segunda ley:</strong></p>
+        <p>La segunda ley representa algo importante , cuanto más fuerte empujas un objeto, más acelera. Cuanto más pesado es, más difícil será acelerarlo.</p>
+        <p>Y es simple verlo con cosas de nuestro dia a dia, por ejemplo es más fácil empujar un carrito de supermercado vacío que uno lleno o si pateas una pelota suave, avanza despacio; si la pateas fuerte, acelera más.</p>
+        <p>es simple la idea se resume asi F=ma, Fuerza=masa*aceleracion, no hace falta memorizar la fórmula todavía para entenderla. Solo recuerda estas dos reglas:</p>
+        <p>Un empujón más fuerte produce un cambio mayor </p>
+        <p>Un objeto más pesado necesita más fuerza para moverse</p>
+        <p>Algo que debe quedar claro es el significado de la aceleracion, mucha gente piensa que acelerar es solo ir rápido, pero no exactamente. Acelerar significa cambiar la velocidad. Puede ser:</p>
+        <p>Ir cada vez más rápido.</p>
+        <p>Ir cada vez más lento: eso es aceleración negativa o frenado.</p>
+        <p>Doblar una esquina, aunque el velocímetro marque siempre lo mismo, porque cambia la dirección.</p>
+        <p>La idea mas importante es que la segunda ley no dice que una fuerza siempre haga que algo se mueva. Dice que una fuerza neta, es decir, el resultado final de todos los empujones y jalones, es lo que cambia el movimiento.</p>   
+      `,
+      ingeniero: `
+        <h2 style="color: var(--ciencias); margin-bottom: 15px;">Ciclos Termodinámicos (Análisis Técnico)</h2>
+        <p>Aplicación de la primera y segunda ley de la termodinámica, análisis de entropía y balances de energía en sistemas cerrados y abiertos.</p>
+      `
+    },
   };
 
   function cargarContenido(temaId) {
