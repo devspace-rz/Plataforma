@@ -43,10 +43,8 @@
   header { position: relative; padding: 40px 230px 30px 0; min-height: 190px; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--aero); padding-left: 16px; margin-bottom: 40px; }
-  .jet-visual { position: absolute; right: 0; top: 20px; width: 200px; height: 160px; pointer-events: none; }
-  
-  @keyframes turbine-spin { to { transform: rotate(360deg); } }
-  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .jet-visual { position: relative; display: block; margin: -22px auto 4px; right: auto; top: auto; } }
+  .canvas3d-container { position: absolute; right: 0; top: 15px; width: 210px; height: 170px; pointer-events: auto; }
+  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .canvas3d-container { position: relative; display: block; margin: -10px auto 10px; right: auto; top: auto; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -99,41 +97,7 @@
       <div class="welcome-box">
         Bienvenido al módulo aeronáutico. Aquí aprenderemos desde por qué vuela un avión hasta las partes más técnicas y focalizadas de este. La historia de la aviación es una de las más bellas: comenzó con los globos aerostáticos en 1783 y avanzó drásticamente con el primer vuelo a motor de los hermanos Wright en 1903. La necesidad y la curiosidad generan grandes cambios y, con ello, nuevas y mejores tecnologías.
       </div>
-      <svg class="jet-visual" viewBox="0 0 200 160" aria-hidden="true">
-        <defs>
-          <linearGradient id="engineNacelle" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#475569"/>
-            <stop offset="50%" stop-color="#1e293b"/>
-            <stop offset="100%" stop-color="#0f172a"/>
-          </linearGradient>
-          <linearGradient id="exhaustFlame" x1="0" x2="1">
-            <stop offset="0%" stop-color="#2fa8ff" stop-opacity="0.9"/>
-            <stop offset="50%" stop-color="#7c5cff" stop-opacity="0.6"/>
-            <stop offset="100%" stop-color="#ff6a3d" stop-opacity="0"/>
-          </linearGradient>
-          <filter id="glowAero">
-            <feGaussianBlur stdDeviation="3" result="blurAero"/>
-            <feMerge>
-              <feMergeNode in="blurAero"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <path d="M135 68 L 195 50 L 195 110 L 135 92 Z" fill="url(#exhaustFlame)" filter="url(#glowAero)"/>
-        <path d="M 35 45 C 80 35, 130 35, 155 52 L 155 108 C 130 125, 80 125, 35 115 Z" fill="url(#engineNacelle)" stroke="#2fa8ff" stroke-width="1.8"/>
-        <ellipse cx="45" cy="80" rx="10" ry="35" fill="#0f172a" stroke="#93c5fd" stroke-width="1.5"/>
-        <ellipse cx="110" cy="80" rx="35" ry="30" fill="#0b0f19" stroke="#2fa8ff" stroke-width="2" filter="url(#glowAero)"/>
-        <g class="fan" style="transform-origin: 110px 80px; animation: turbine-spin 1.8s linear infinite;">
-          <path d="M 110 80 L 100 45 C 108 42, 115 45, 118 52 Z" fill="#94a3b8" stroke="#cbd5e1" stroke-width="0.5"/>
-          <path d="M 110 80 L 135 55 C 136 63, 133 70, 125 74 Z" fill="#64748b" stroke="#cbd5e1" stroke-width="0.5"/>
-          <path d="M 110 80 L 140 90 C 135 97, 128 100, 120 98 Z" fill="#94a3b8" stroke="#cbd5e1" stroke-width="0.5"/>
-          <path d="M 110 80 L 95 110 C 102 113, 110 110, 115 102 Z" fill="#64748b" stroke="#cbd5e1" stroke-width="0.5"/>
-          <path d="M 110 80 L 80 75 C 82 67, 88 61, 96 62 Z" fill="#94a3b8" stroke="#cbd5e1" stroke-width="0.5"/>
-        </g>
-        <circle cx="110" cy="80" r="10" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/>
-        <circle cx="110" cy="80" r="4" fill="#2fa8ff" filter="url(#glowAero)"/>
-        <path d="M 15 65 H 30 M 10 80 H 26 M 15 95 H 30" stroke="#2fa8ff" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-      </svg>
+      <div class="canvas3d-container" id="canvasAero"></div>
     </header>
 
     <div class="search-container">
@@ -186,67 +150,84 @@
     </section>
   </div>
 
+<!-- Three.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+  // Inicializar animación 3D de Turbina Real
+  const containerAero = document.getElementById('canvasAero');
+  if (containerAero) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, containerAero.clientWidth / containerAero.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(containerAero.clientWidth, containerAero.clientHeight);
+    containerAero.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const pointLight = new THREE.PointLight(0x2fa8ff, 3, 50);
+    pointLight.position.set(2, 4, 5);
+    scene.add(pointLight);
+
+    const turbineGroup = new THREE.Group();
+    
+    // Cono central de la turbina
+    const cone = new THREE.Mesh(
+      new THREE.ConeGeometry(0.5, 1.4, 16),
+      new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.9, roughness: 0.2 })
+    );
+    cone.rotation.x = Math.PI / 2;
+    turbineGroup.add(cone);
+
+    // Aspas de la turbina
+    const bladesGroup = new THREE.Group();
+    for (let i = 0; i < 6; i++) {
+      const blade = new THREE.Mesh(
+        new THREE.BoxGeometry(1.6, 0.15, 0.02),
+        new THREE.MeshStandardMaterial({ color: 0x2fa8ff, metalness: 0.8, roughness: 0.3 })
+      );
+      blade.rotation.z = (Math.PI / 3) * i;
+      bladesGroup.add(blade);
+    }
+    turbineGroup.add(bladesGroup);
+
+    scene.add(turbineGroup);
+    camera.position.z = 4.2;
+
+    function animateAero() {
+      requestAnimationFrame(animateAero);
+      bladesGroup.rotation.z += 0.08; // Giro rápido de aspas
+      turbineGroup.rotation.y += 0.005; // Ligera rotación del conjunto
+      renderer.render(scene, camera);
+    }
+    animateAero();
+  }
+
   let temaActualActivo = null;
   function setMode(mode) { 
     document.body.dataset.mode = mode; 
-    if (temaActualActivo) {
-      cargarContenido(temaActualActivo);
-    }
+    if (temaActualActivo) cargarContenido(temaActualActivo);
   }
   const CURRENT_MODULE = 'aeronautico';
-
   const contenidoTemas = {
     motores: {
-      explorador: `
-        <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción</h2>
-        <p>Un motor a reacción funciona bajo la tercera ley de Newton (acción y reacción). Toma aire del exterior a gran velocidad, lo comprime, lo mezcla con combustible, lo enciende provocando una explosión controlada y lo expulsa con mucha fuerza por la parte trasera, impulsando el avión hacia adelante.</p>
-      `,
-      ingeniero: `
-        <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción (Análisis Técnico)</h2>
-        <p>El ciclo termodinámico ideal que rige a los turborreactores es el <strong>Ciclo Brayton</strong>. El análisis del empuje neto se formula mediante la siguiente ecuación fundamental:</p>
-        <p style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin-top: 10px;">
-          Fn = m_dot * (ve - v0) + Ae * (pe - p0)
-        </p>
-      `
+      explorador: `<h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción</h2><p>Un motor a reacción funciona bajo la tercera ley de Newton (acción y reacción). Toma aire del exterior a gran velocidad, lo comprime, lo mezcla con combustible y lo expulsa con fuerza.</p>`,
+      ingeniero: `<h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción (Análisis Técnico)</h2><p>El ciclo termodinámico ideal que rige a los turborreactores es el <strong>Ciclo Brayton</strong>. Análisis del empuje neto mediante la ecuación fundamental:</p><p style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin-top: 10px;">Fn = m_dot * (ve - v0) + Ae * (pe - p0)</p>`
     },
     prop: {
-      explorador: `
-        <h2 style="color: var(--aero); margin-bottom: 15px;">Propulsión y Empuje</h2>
-        <p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama empuje. Un motor de avión toma aire de delante, lo aprieta y lo acelera para expulsarlo muy rápido hacia atrás.</p>
-      `,
-      ingeniero: `
-        <h2 style="color: var(--aero); margin-bottom: 15px;">Propulsión y Empuje (Análisis Técnico)</h2>
-        <p>Fuerza de reacción descrita cuantitativamente por la tercera ley de Newton. Ecuación general incluyendo flujo másico de combustible (mf):</p>
-        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 14px; border-radius: 8px; margin: 15px 0; color: var(--auto); font-weight: bold;">
-          F = (m&#775;<sub>0</sub> + m&#775;<sub>f</sub>)V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
-        </div>
-      `
+      explorador: `<h2 style="color: var(--aero); margin-bottom: 15px;">Propulsión y Empuje</h2><p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama empuje.</p>`,
+      ingeniero: `<h2 style="color: var(--aero); margin-bottom: 15px;">Propulsión y Empuje (Análisis Técnico)</h2><p>Fuerza de reacción descrita cuantitativamente por la tercera ley de Newton incluyendo flujo másico.</p>`
     },
     aerodinamica: {
-      explorador: `
-        <h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental</h2>
-        <p>Estudia cómo el aire fluye alrededor de los objetos y cómo las alas de los aviones aprovechan la forma para generar la fuerza de sustentación que los eleva por los cielos.</p>
-      `,
-      ingeniero: `
-        <h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental (Ingeniería)</h2>
-        <p>Estudio de los campos de presión y velocidad regidos por las ecuaciones de Navier-Stokes, perfiles alares simétricos/asimétricos y el coeficiente de sustentación.</p>
-      `
+      explorador: `<h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental</h2><p>Estudia cómo el aire fluye alrededor de los objetos y cómo las alas generan sustentación.</p>`,
+      ingeniero: `<h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental (Ingeniería)</h2><p>Estudio de los campos de presión y velocidad regidos por las ecuaciones de Navier-Stokes.</p>`
     }
   };
-
   function cargarContenido(temaId) {
     temaActualActivo = temaId;
     const mainContent = document.getElementById('mainContent');
-    const modoActual = document.body.dataset.mode;
     const tema = contenidoTemas[temaId];
     if (!tema) return;
-    mainContent.innerHTML = `
-      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>
-      ${tema[modoActual]}
-    `;
+    mainContent.innerHTML = `<button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>${tema[document.body.dataset.mode]}`;
   }
-
   function regresarLista() { location.reload(); }
 
   const database = [
@@ -261,10 +242,8 @@
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false },
     { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true }
   ];
-
   const searchBox = document.getElementById('searchBox');
   const searchResults = document.getElementById('searchResults');
-
   searchBox.addEventListener('input', () => {
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
@@ -279,22 +258,17 @@
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
-        if (item.desarrollado) {
-          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { searchResults.style.display = 'none'; };
-        } else {
-          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
-        }
+        div.innerHTML = item.desarrollado ? `<span class="status-found">✓ En este módulo:</span> ${item.tema}` : `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
+        if (item.desarrollado) div.onclick = () => { searchResults.style.display = 'none'; };
       } else {
-        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
+        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema}`;
       }
       searchResults.appendChild(div);
     });
     searchResults.style.display = 'block';
   });
-
   document.addEventListener('click', (e) => {
-    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none';
   });
 </script>
 </body>
