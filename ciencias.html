@@ -40,9 +40,21 @@
   .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
-  header { padding: 40px 0 30px; }
+  header { padding: 40px 0 30px; display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }
+  .header-text { flex: 1; min-width: 0; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--ciencias); padding-left: 16px; margin-bottom: 40px; }
+
+  .molecule-visual { flex-shrink: 0; width: 168px; height: 168px; position: relative; margin-top: 4px; }
+  .molecule-visual svg { width: 100%; height: 100%; overflow: visible; }
+  .molecule-visual .glow { filter: blur(18px); opacity: 0.55; }
+  .molecule-visual .ring { transform-origin: 84px 84px; animation: molSpin 22s linear infinite; }
+  .molecule-visual .ring.ring-2 { animation-duration: 34s; animation-direction: reverse; }
+  .molecule-visual .nucleus-pulse { animation: molPulse 3.2s ease-in-out infinite; transform-origin: 84px 84px; }
+  @keyframes molSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes molPulse { 0%, 100% { r: 7; opacity: 1; } 50% { r: 8.4; opacity: 0.85; } }
+  @media (max-width: 720px) { .molecule-visual { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .molecule-visual .ring, .molecule-visual .nucleus-pulse { animation: none; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -67,8 +79,9 @@
   .lista-temas { direction: ltr; list-style: none; display: flex; flex-direction: column; padding: 0; margin: 0; }
   .tema-item { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; cursor: pointer; }
   .tema-item:last-child { border-bottom: none; }
-  .tema-item:hover { background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; }
-  .tema-icono { background-color: #1E293B; color: var(--ciencias); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; }
+  .tema-item:hover { background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; transform: translateX(2px); }
+  .tema-item:hover .tema-icono { background-color: rgba(51, 214, 166, 0.14); color: var(--ciencias); transform: scale(1.04); }
+  .tema-icono { background-color: #1E293B; color: var(--ciencias); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; transition: all 0.25s ease; }
   .tema-titulo { color: #FFFFFF; margin: 0 0 4px 0; font-size: 16px; font-weight: 600; }
   .tema-desc { color: var(--text-dim); margin: 0; font-size: 13px; }
   
@@ -91,9 +104,29 @@
     </nav>
 
     <header>
-      <h1 class="mod-title">Ciencias Fundamentales</h1>
-      <div class="welcome-box">
-        ¿Qué es la ciencia y qué somos sin ella? Aquí aprenderemos ciencias básicas que rigen el funcionamiento de los otros tres módulos, además de algunos extras muy interesantes.
+      <div class="header-text">
+        <h1 class="mod-title">Ciencias Fundamentales</h1>
+        <div class="welcome-box">
+          ¿Qué es la ciencia y qué somos sin ella? Aquí aprenderemos ciencias básicas que rigen el funcionamiento de los otros tres módulos, además de algunos extras muy interesantes.
+        </div>
+      </div>
+      <div class="molecule-visual" aria-hidden="true">
+        <svg viewBox="0 0 168 168">
+          <circle class="glow" cx="84" cy="84" r="40" fill="var(--ciencias)"/>
+          <g class="ring" stroke="var(--ciencias)" stroke-width="1.4" fill="none" opacity="0.7">
+            <ellipse cx="84" cy="84" rx="62" ry="24"/>
+          </g>
+          <g class="ring ring-2" stroke="var(--aero)" stroke-width="1.4" fill="none" opacity="0.6">
+            <ellipse cx="84" cy="84" rx="62" ry="24" transform="rotate(60 84 84)"/>
+          </g>
+          <g stroke="var(--espacial)" stroke-width="1.4" fill="none" opacity="0.55">
+            <ellipse cx="84" cy="84" rx="62" ry="24" transform="rotate(120 84 84)"/>
+          </g>
+          <circle class="nucleus-pulse" cx="84" cy="84" r="7" fill="var(--ciencias)"/>
+          <circle cx="146" cy="84" r="4" fill="var(--aero)"/>
+          <circle cx="22" cy="84" r="4" fill="var(--espacial)"/>
+          <circle cx="84" cy="60" r="3.4" fill="var(--ciencias)"/>
+        </svg>
       </div>
     </header>
 
@@ -116,7 +149,7 @@
               
               <li class="tema-item" onclick="cargarContenido('ciclosTermodinamicos')">
                 <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.8"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3v10.5a3.5 3.5 0 1 0 4 0V3"/><path d="M9 8h4"/></svg>
                 </div>
                 <div class="tema-info">
                   <h4 class="tema-titulo">Ciclos Termodinámicos</h4>
@@ -125,7 +158,7 @@
               </li>
                <li class="tema-item" onclick="cargarContenido('energia')">
                 <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.8"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
                 </div>
                 <div class="tema-info">
                   <h4 class="tema-titulo">Energia, Trabajo y Potencia</h4>
@@ -134,7 +167,7 @@
               </li>
                 <li class="tema-item" onclick="cargarContenido('leyesnewton')">
                 <div class="tema-icono">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.8"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.2"/><path d="M9 12h11m-4-3 4 3-4 3"/></svg>
                 </div>
                 <div class="tema-info">
                   <h4 class="tema-titulo">Leyes de Newton</h4>
