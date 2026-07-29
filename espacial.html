@@ -40,11 +40,9 @@
   .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
-  header { position: relative; padding: 40px 230px 30px 0; min-height: 190px; }
+  header { padding: 40px 0 30px; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--espacial); padding-left: 16px; margin-bottom: 40px; }
-  .canvas3d-container { position: absolute; right: 0; top: 15px; width: 210px; height: 170px; pointer-events: auto; }
-  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .canvas3d-container { position: relative; display: block; margin: -10px auto 10px; right: auto; top: auto; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -97,7 +95,6 @@
       <div class="welcome-box">
         Bienvenido al módulo espacial. Aquí aprenderemos conceptos relacionados con cohetes, satélites, propulsión, cálculo orbital, sistemas en cohetes, aerodinámica espacial y un sinfín de temas que se desarrollarán a lo largo del tiempo.
       </div>
-      <div class="canvas3d-container" id="canvasSpace"></div>
     </header>
 
     <div class="search-container">
@@ -116,6 +113,7 @@
         <div class="temas-container">
           <div class="scroll-area">
             <ul class="lista-temas">
+              
               <li class="tema-item" onclick="cargarContenido('mecanicaOrbital')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -125,6 +123,7 @@
                   <p class="tema-desc">Leyes de Kepler y trayectorias espaciales</p>
                 </div>
               </li>
+
             </ul>
           </div>
         </div>
@@ -132,70 +131,43 @@
     </section>
   </div>
 
-<!-- Three.js Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  // Inicializar animación 3D de Satélite Real
-  const containerSpace = document.getElementById('canvasSpace');
-  if (containerSpace) {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, containerSpace.clientWidth / containerSpace.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(containerSpace.clientWidth, containerSpace.clientHeight);
-    containerSpace.appendChild(renderer.domElement);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-    const pLight = new THREE.PointLight(0x7c5ff, 2, 50);
-    pLight.position.set(5, 5, 5);
-    scene.add(pLight);
-
-    const satGroup = new THREE.Group();
-    const body = new THREE.Mesh(
-      new THREE.BoxGeometry(1.1, 1.1, 1.1),
-      new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.15 })
-    );
-    satGroup.add(body);
-
-    const panelGeo = new THREE.BoxGeometry(2.0, 0.7, 0.04);
-    const panelMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8, metalness: 0.6, roughness: 0.3 });
-    const pLeft = new THREE.Mesh(panelGeo, panelMat);
-    pLeft.position.set(-1.5, 0, 0);
-    satGroup.add(pLeft);
-    const pRight = new THREE.Mesh(panelGeo, panelMat);
-    pRight.position.set(1.5, 0, 0);
-    satGroup.add(pRight);
-
-    scene.add(satGroup);
-    camera.position.z = 4.8;
-
-    function animateSpace() {
-      requestAnimationFrame(animateSpace);
-      satGroup.rotation.x += 0.004;
-      satGroup.rotation.y += 0.007;
-      renderer.render(scene, camera);
-    }
-    animateSpace();
-  }
-
   let temaActualActivo = null;
-  function setMode(mode) { 
+   let temaActualActivo = null;
+function setMode(mode) { 
     document.body.dataset.mode = mode; 
-    if (temaActualActivo) cargarContenido(temaActualActivo);
+    // Si estás leyendo un tema, actualiza el contenido al cambiar de modo en tiempo real
+    if (temaActualActivo) {
+      cargarContenido(temaActualActivo);
+    }
   }
   const CURRENT_MODULE = 'espacial';
+
   const contenidoTemas = {
     mecanicaOrbital: {
-      explorador: `<h2 style="color: var(--espacial); margin-bottom: 15px;">Mecánica Orbital</h2><p>Estudia cómo se mueven los objetos en el espacio bajo la influencia de la gravedad, permitiendo entender las órbitas de los satélites y los viajes interplanetarios.</p>`,
-      ingeniero: `<h2 style="color: var(--espacial); margin-bottom: 15px;">Mecánica Orbital (Análisis Técnico)</h2><p>Basado en las leyes de Kepler y la ley de gravitación universal de Newton, analizando la energía orbital específica y las maniobras de transferencia de Hohmann.</p>`
+      explorador: `
+        <h2 style="color: var(--espacial); margin-bottom: 15px;">Mecánica Orbital</h2>
+        <p>Estudia cómo se mueven los objetos en el espacio bajo la influencia de la gravedad, permitiendo entender las órbitas de los satélites y los viajes interplanetarios.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--espacial); margin-bottom: 15px;">Mecánica Orbital (Análisis Técnico)</h2>
+        <p>Basado en las leyes de Kepler y la ley de gravitación universal de Newton, analizando la energía orbital específica y las maniobras de transferencia de Hohmann.</p>
+      `
     }
   };
+
   function cargarContenido(temaId) {
     temaActualActivo = temaId;
     const mainContent = document.getElementById('mainContent');
+    const modoActual = document.body.dataset.mode;
     const tema = contenidoTemas[temaId];
     if (!tema) return;
-    mainContent.innerHTML = `<button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>${tema[document.body.dataset.mode]}`;
+    mainContent.innerHTML = `
+      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>
+      ${tema[modoActual]}
+    `;
   }
+
   function regresarLista() { location.reload(); }
 
   const database = [
@@ -210,8 +182,10 @@
     { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true },
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false }
   ];
+
   const searchBox = document.getElementById('searchBox');
   const searchResults = document.getElementById('searchResults');
+
   searchBox.addEventListener('input', () => {
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
@@ -226,17 +200,22 @@
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
-        div.innerHTML = item.desarrollado ? `<span class="status-found">✓ En este módulo:</span> ${item.tema}` : `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
-        if (item.desarrollado) div.onclick = () => { searchResults.style.display = 'none'; };
+        if (item.desarrollado) {
+          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
+          div.onclick = () => { searchResults.style.display = 'none'; };
+        } else {
+          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
+        }
       } else {
-        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema}`;
+        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
       }
       searchResults.appendChild(div);
     });
     searchResults.style.display = 'block';
   });
+
   document.addEventListener('click', (e) => {
-    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none';
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
   });
 </script>
 </body>
