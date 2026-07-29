@@ -43,23 +43,8 @@
   header { position: relative; padding: 40px 230px 30px 0; min-height: 190px; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--auto); padding-left: 16px; margin-bottom: 40px; }
-  .engine-visual { position: absolute; right: 0; top: 20px; width: 200px; height: 160px; pointer-events: none; }
-  
-  @keyframes piston-move {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(28px); }
-  }
-  @keyframes rod-tilt {
-    0%, 100% { transform: rotate(0deg) translateY(0); }
-    50% { transform: rotate(14deg) translateY(12px); }
-  }
-  @keyframes crank-spin {
-    to { transform: rotate(360deg); }
-  }
-  @keyframes spark-flash {
-    50% { opacity: 0.1; }
-  }
-  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .engine-visual { position: relative; display: block; margin: -20px auto 4px; right: auto; top: auto; } }
+  .canvas3d-container { position: absolute; right: 0; top: 15px; width: 210px; height: 170px; pointer-events: auto; }
+  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .canvas3d-container { position: relative; display: block; margin: -10px auto 10px; right: auto; top: auto; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -112,46 +97,7 @@
       <div class="welcome-box">
         Bienvenido al módulo de automoción. Aquí aprenderemos cómo es que pasamos de caminar y del uso de animales, a máquinas para movernos con libertad y eficiencia.
       </div>
-      <svg class="engine-visual" viewBox="0 0 200 160" aria-hidden="true">
-        <defs>
-          <linearGradient id="metalPiston" x1="0" x2="1">
-            <stop offset="0%" stop-color="#475569"/>
-            <stop offset="50%" stop-color="#cbd5e1"/>
-            <stop offset="100%" stop-color="#334155"/>
-          </linearGradient>
-          <linearGradient id="rodGrad" x1="0" x2="1">
-            <stop offset="0%" stop-color="#94a3b8"/>
-            <stop offset="100%" stop-color="#64748b"/>
-          </linearGradient>
-          <filter id="glowAuto">
-            <feGaussianBlur stdDeviation="2.5" result="blur"/>
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <path d="M 50 25 L 150 25 L 160 50 L 160 135 L 40 135 L 40 50 Z" fill="#111827" stroke="#334155" stroke-width="2"/>
-        <rect x="70" y="32" width="60" height="95" rx="4" fill="#030712" stroke="#ff6a3d" stroke-width="1.2" opacity="0.8"/>
-        <g style="animation: piston-move 1.2s ease-in-out infinite; transform-origin: 100px 50px;">
-          <rect x="73" y="38" width="54" height="32" rx="3" fill="url(#metalPiston)" stroke="#f8fafc" stroke-width="1"/>
-          <line x1="73" y1="44" x2="127" y2="44" stroke="#0f172a" stroke-width="1.5"/>
-          <line x1="73" y1="50" x2="127" y2="50" stroke="#0f172a" stroke-width="1.5"/>
-          <circle cx="100" cy="54" r="5" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
-        </g>
-        <g style="animation: rod-tilt 1.2s ease-in-out infinite; transform-origin: 100px 54px;">
-          <path d="M 96 54 L 93 105 L 107 105 L 104 54 Z" fill="url(#rodGrad)" stroke="#475569" stroke-width="1"/>
-        </g>
-        <g style="animation: crank-spin 1.2s linear infinite; transform-origin: 100px 115px;">
-          <circle cx="100" cy="115" r="18" fill="none" stroke="#ff6a3d" stroke-width="3" opacity="0.9"/>
-          <path d="M 85 115 A 15 15 0 0 0 115 115 Z" fill="#64748b"/>
-          <circle cx="100" cy="100" r="6" fill="#f8fafc" filter="url(#glowAuto)"/>
-        </g>
-        <g filter="url(#glowAuto)" stroke="#ffd166" stroke-width="2" style="animation: spark-flash 0.6s steps(2,end) infinite;">
-          <line x1="100" y1="32" x2="100" y2="20"/>
-          <line x1="94" y1="25" x2="106" y2="25"/>
-        </g>
-      </svg>
+      <div class="canvas3d-container" id="canvasAuto"></div>
     </header>
 
     <div class="search-container">
@@ -186,41 +132,75 @@
     </section>
   </div>
 
+<!-- Three.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+  // Inicializar animación 3D de Pistón Mecánico Real
+  const containerAuto = document.getElementById('canvasAuto');
+  if (containerAuto) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, containerAuto.clientWidth / containerAuto.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(containerAuto.clientWidth, containerAuto.clientHeight);
+    containerAuto.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+    const pointLight = new THREE.PointLight(0xff6a3d, 2.5, 50);
+    pointLight.position.set(3, 5, 4);
+    scene.add(pointLight);
+
+    const engineGroup = new THREE.Group();
+    
+    // Pistón 3D
+    const piston = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.8, 0.8, 1.0, 32),
+      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9, roughness: 0.2 })
+    );
+    engineGroup.add(piston);
+
+    // Eje de cigüeñal rotatorio
+    const crank = new THREE.Mesh(
+      new THREE.TorusGeometry(0.7, 0.15, 16, 32),
+      new THREE.MeshStandardMaterial({ color: 0xff6a3d, metalness: 0.8, roughness: 0.3 })
+    );
+    crank.rotation.x = Math.PI / 2;
+    crank.position.y = -1.2;
+    engineGroup.add(crank);
+
+    scene.add(engineGroup);
+    camera.position.z = 4.5;
+
+    let clock = 0;
+    function animateAuto() {
+      requestAnimationFrame(animateAuto);
+      clock += 0.04;
+      // Movimiento vertical de pistón simulando compresión del motor
+      piston.position.y = Math.sin(clock) * 0.35;
+      crank.rotation.z += 0.03;
+      renderer.render(scene, camera);
+    }
+    animateAuto();
+  }
+
   let temaActualActivo = null;
   function setMode(mode) { 
     document.body.dataset.mode = mode; 
-    if (temaActualActivo) {
-      cargarContenido(temaActualActivo);
-    }
+    if (temaActualActivo) cargarContenido(temaActualActivo);
   }
   const CURRENT_MODULE = 'automocion';
-
   const contenidoTemas = {
     motoresCombustion: {
-      explorador: `
-        <h2 style="color: var(--auto); margin-bottom: 15px;">Motores de Combustión</h2>
-        <p>Los motores de combustión transforman la energía química del combustible en energía mecánica a través de explosiones controladas dentro de cilindros.</p>
-      `,
-      ingeniero: `
-        <h2 style="color: var(--auto); margin-bottom: 15px;">Motores de Combustión (Análisis Técnico)</h2>
-        <p>Análisis basado en el ciclo Otto y ciclo Diesel ideal, estudiando la relación de compresión, el trabajo indicado y la eficiencia térmica volumétrica.</p>
-      `
+      explorador: `<h2 style="color: var(--auto); margin-bottom: 15px;">Motores de Combustión</h2><p>Los motores de combustión transforman la energía química del combustible en energía mecánica a través de explosiones controladas dentro de cilindros.</p>`,
+      ingeniero: `<h2 style="color: var(--auto); margin-bottom: 15px;">Motores de Combustión (Análisis Técnico)</h2><p>Análisis basado en el ciclo Otto y ciclo Diesel ideal, estudiando la relación de compresión, el trabajo indicado y la eficiencia térmica volumétrica.</p>`
     }
   };
-
   function cargarContenido(temaId) {
     temaActualActivo = temaId;
     const mainContent = document.getElementById('mainContent');
-    const modoActual = document.body.dataset.mode;
     const tema = contenidoTemas[temaId];
     if (!tema) return;
-    mainContent.innerHTML = `
-      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver al temas</button>
-      ${tema[modoActual]}
-    `;
+    mainContent.innerHTML = `<button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>${tema[document.body.dataset.mode]}`;
   }
-
   function regresarLista() { location.reload(); }
 
   const database = [
@@ -235,10 +215,8 @@
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false },
     { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true }
   ];
-
   const searchBox = document.getElementById('searchBox');
   const searchResults = document.getElementById('searchResults');
-
   searchBox.addEventListener('input', () => {
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
@@ -253,22 +231,17 @@
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
-        if (item.desarrollado) {
-          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
-          div.onclick = () => { searchResults.style.display = 'none'; };
-        } else {
-          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
-        }
+        div.innerHTML = item.desarrollado ? `<span class="status-found">✓ En este módulo:</span> ${item.tema}` : `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
+        if (item.desarrollado) div.onclick = () => { searchResults.style.display = 'none'; };
       } else {
-        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
+        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema}`;
       }
       searchResults.appendChild(div);
     });
     searchResults.style.display = 'block';
   });
-
   document.addEventListener('click', (e) => {
-    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none';
   });
 </script>
 </body>
