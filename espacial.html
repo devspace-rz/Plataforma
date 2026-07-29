@@ -40,9 +40,12 @@
   .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
-  header { padding: 40px 0 30px; }
+  header { position: relative; padding: 40px 230px 30px 0; min-height: 190px; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--espacial); padding-left: 16px; margin-bottom: 40px; }
+  .space-visual { position: absolute; right: 0; top: 23px; width: 200px; height: 160px; pointer-events: none; }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .space-visual { position: relative; display: block; margin: -24px auto 4px; right: auto; top: auto; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -95,6 +98,51 @@
       <div class="welcome-box">
         Bienvenido al módulo espacial. Aquí aprenderemos conceptos relacionados con cohetes, satélites, propulsión, cálculo orbital, sistemas en cohetes, aerodinámica espacial y un sinfín de temas que se desarrollarán a lo largo del tiempo.
       </div>
+      <svg class="space-visual" viewBox="0 0 200 160" aria-hidden="true">
+        <defs>
+          <linearGradient id="earthGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="50%" stop-color="#1d4ed8"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="panelGrad" x1="0" x2="1">
+            <stop offset="0%" stop-color="#1e3a8a"/>
+            <stop offset="50%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+          <filter id="glowSpace">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <g fill="#94a3b8" opacity="0.6">
+          <circle cx="20" cy="30" r="1" />
+          <circle cx="170" cy="20" r="1.5" />
+          <circle cx="185" cy="90" r="1" />
+          <circle cx="30" cy="120" r="1" />
+        </g>
+        <path d="M-20 160 C 40 100, 140 100, 220 160 Z" fill="url(#earthGrad)" opacity="0.85"/>
+        <path d="M-20 160 C 40 100, 140 100, 220 160" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.6" filter="url(#glowSpace)"/>
+        <ellipse cx="100" cy="75" rx="75" ry="32" fill="none" stroke="#7c5cff" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.4" transform="rotate(-15 100 75)"/>
+        <g class="satellite-orbit" style="transform-origin: 100px 75px; animation: orbit 12s linear infinite;">
+          <g transform="translate(145, 52) rotate(25)">
+            <rect x="-32" y="-8" width="22" height="16" rx="2" fill="url(#panelGrad)" stroke="#93c5fd" stroke-width="0.8"/>
+            <line x1="-21" y1="-8" x2="-21" y2="8" stroke="#1e3a8a" stroke-width="0.8"/>
+            <line x1="-27" y1="-8" x2="-27" y2="8" stroke="#1e3a8a" stroke-width="0.8"/>
+            <rect x="10" y="-8" width="22" height="16" rx="2" fill="url(#panelGrad)" stroke="#93c5fd" stroke-width="0.8"/>
+            <line x1="21" y1="-8" x2="21" y2="8" stroke="#1e3a8a" stroke-width="0.8"/>
+            <line x1="15" y1="-8" x2="15" y2="8" stroke="#1e3a8a" stroke-width="0.8"/>
+            <rect x="-10" y="-10" width="20" height="20" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+            <rect x="-6" y="-6" width="12" height="12" fill="#1e293b"/>
+            <path d="M0 10 L 0 18 M-5 16 L 5 16" stroke="#94a3b8" stroke-width="1.2"/>
+            <circle cx="0" cy="20" r="4" fill="none" stroke="#38bdf8" stroke-width="1" filter="url(#glowSpace)"/>
+            <circle cx="-2" cy="-2" r="1.5" fill="#33d6a6" filter="url(#glowSpace)"/>
+          </g>
+        </g>
+      </svg>
     </header>
 
     <div class="search-container">
@@ -113,7 +161,6 @@
         <div class="temas-container">
           <div class="scroll-area">
             <ul class="lista-temas">
-              
               <li class="tema-item" onclick="cargarContenido('mecanicaOrbital')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -123,7 +170,6 @@
                   <p class="tema-desc">Leyes de Kepler y trayectorias espaciales</p>
                 </div>
               </li>
-
             </ul>
           </div>
         </div>
@@ -133,10 +179,8 @@
 
 <script>
   let temaActualActivo = null;
-   let temaActualActivo = null;
-function setMode(mode) { 
+  function setMode(mode) { 
     document.body.dataset.mode = mode; 
-    // Si estás leyendo un tema, actualiza el contenido al cambiar de modo en tiempo real
     if (temaActualActivo) {
       cargarContenido(temaActualActivo);
     }
