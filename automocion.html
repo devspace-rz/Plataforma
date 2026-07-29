@@ -40,9 +40,26 @@
   .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
-  header { padding: 40px 0 30px; }
+  header { position: relative; padding: 40px 230px 30px 0; min-height: 190px; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--auto); padding-left: 16px; margin-bottom: 40px; }
+  .engine-visual { position: absolute; right: 0; top: 20px; width: 200px; height: 160px; pointer-events: none; }
+  
+  @keyframes piston-move {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(28px); }
+  }
+  @keyframes rod-tilt {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    50% { transform: rotate(14deg) translateY(12px); }
+  }
+  @keyframes crank-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spark-flash {
+    50% { opacity: 0.1; }
+  }
+  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .engine-visual { position: relative; display: block; margin: -20px auto 4px; right: auto; top: auto; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -95,6 +112,46 @@
       <div class="welcome-box">
         Bienvenido al módulo de automoción. Aquí aprenderemos cómo es que pasamos de caminar y del uso de animales, a máquinas para movernos con libertad y eficiencia.
       </div>
+      <svg class="engine-visual" viewBox="0 0 200 160" aria-hidden="true">
+        <defs>
+          <linearGradient id="metalPiston" x1="0" x2="1">
+            <stop offset="0%" stop-color="#475569"/>
+            <stop offset="50%" stop-color="#cbd5e1"/>
+            <stop offset="100%" stop-color="#334155"/>
+          </linearGradient>
+          <linearGradient id="rodGrad" x1="0" x2="1">
+            <stop offset="0%" stop-color="#94a3b8"/>
+            <stop offset="100%" stop-color="#64748b"/>
+          </linearGradient>
+          <filter id="glowAuto">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <path d="M 50 25 L 150 25 L 160 50 L 160 135 L 40 135 L 40 50 Z" fill="#111827" stroke="#334155" stroke-width="2"/>
+        <rect x="70" y="32" width="60" height="95" rx="4" fill="#030712" stroke="#ff6a3d" stroke-width="1.2" opacity="0.8"/>
+        <g style="animation: piston-move 1.2s ease-in-out infinite; transform-origin: 100px 50px;">
+          <rect x="73" y="38" width="54" height="32" rx="3" fill="url(#metalPiston)" stroke="#f8fafc" stroke-width="1"/>
+          <line x1="73" y1="44" x2="127" y2="44" stroke="#0f172a" stroke-width="1.5"/>
+          <line x1="73" y1="50" x2="127" y2="50" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="100" cy="54" r="5" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+        </g>
+        <g style="animation: rod-tilt 1.2s ease-in-out infinite; transform-origin: 100px 54px;">
+          <path d="M 96 54 L 93 105 L 107 105 L 104 54 Z" fill="url(#rodGrad)" stroke="#475569" stroke-width="1"/>
+        </g>
+        <g style="animation: crank-spin 1.2s linear infinite; transform-origin: 100px 115px;">
+          <circle cx="100" cy="115" r="18" fill="none" stroke="#ff6a3d" stroke-width="3" opacity="0.9"/>
+          <path d="M 85 115 A 15 15 0 0 0 115 115 Z" fill="#64748b"/>
+          <circle cx="100" cy="100" r="6" fill="#f8fafc" filter="url(#glowAuto)"/>
+        </g>
+        <g filter="url(#glowAuto)" stroke="#ffd166" stroke-width="2" style="animation: spark-flash 0.6s steps(2,end) infinite;">
+          <line x1="100" y1="32" x2="100" y2="20"/>
+          <line x1="94" y1="25" x2="106" y2="25"/>
+        </g>
+      </svg>
     </header>
 
     <div class="search-container">
@@ -113,7 +170,6 @@
         <div class="temas-container">
           <div class="scroll-area">
             <ul class="lista-temas">
-              
               <li class="tema-item" onclick="cargarContenido('motoresCombustion')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/><path d="M3 17h2l1.5-6h9L18 17h1"/><path d="M8 11l2-4h4l1 4"/></svg>
@@ -123,7 +179,6 @@
                   <p class="tema-desc">Ciclos de cuatro tiempos y eficiencia térmica</p>
                 </div>
               </li>
-
             </ul>
           </div>
         </div>
@@ -133,10 +188,8 @@
 
 <script>
   let temaActualActivo = null;
-   let temaActualActivo = null;
-function setMode(mode) { 
+  function setMode(mode) { 
     document.body.dataset.mode = mode; 
-    // Si estás leyendo un tema, actualiza el contenido al cambiar de modo en tiempo real
     if (temaActualActivo) {
       cargarContenido(temaActualActivo);
     }
@@ -181,7 +234,6 @@ function setMode(mode) {
     { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false },
     { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true }
-    
   ];
 
   const searchBox = document.getElementById('searchBox');
