@@ -40,11 +40,9 @@
   .back-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
   .back-btn:hover { color: var(--text); background: var(--surface); }
 
-  header { position: relative; padding: 40px 230px 30px 0; min-height: 190px; }
+  header { padding: 40px 0 30px; }
   .mod-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 600; margin-bottom: 16px; }
   .welcome-box { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--aero); padding-left: 16px; margin-bottom: 40px; }
-  .canvas3d-container { position: absolute; right: 0; top: 15px; width: 210px; height: 170px; pointer-events: auto; }
-  @media (max-width: 700px) { header { padding-right: 0; min-height: 0; } .canvas3d-container { position: relative; display: block; margin: -10px auto 10px; right: auto; top: auto; } }
 
   .search-container { position: relative; margin-bottom: 40px; }
   .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
@@ -64,15 +62,62 @@
   .content-section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; margin-bottom: 60px; }
   .content-body { font-size: 15.5px; line-height: 1.75; color: var(--text-dim); }
 
-  .temas-container { background-color: transparent; border-radius: 12px; padding: 10px 0; }
-  .scroll-area { max-height: 380px; overflow-y: auto; direction: rtl; padding-left: 20px; }
-  .lista-temas { direction: ltr; list-style: none; display: flex; flex-direction: column; padding: 0; margin: 0; }
-  .tema-item { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; cursor: pointer; }
+  /* DISEÑO DE LA LISTA Y EL SCROLL LATERAL IZQUIERDO */
+  .temas-container {
+    background-color: transparent;
+    border-radius: 12px;
+    padding: 10px 0;
+  }
+  .scroll-area {
+    max-height: 380px;
+    overflow-y: auto;
+    direction: rtl;
+    padding-left: 20px;
+  }
+  .lista-temas {
+    direction: ltr;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+  .tema-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
   .tema-item:last-child { border-bottom: none; }
-  .tema-item:hover { background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; }
-  .tema-icono { background-color: #1E293B; color: var(--aero); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; }
-  .tema-titulo { color: #FFFFFF; margin: 0 0 4px 0; font-size: 16px; font-weight: 600; }
-  .tema-desc { color: var(--text-dim); margin: 0; font-size: 13px; }
+  .tema-item:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+  }
+  .tema-icono {
+    background-color: #1E293B;
+    color: var(--aero); 
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  .tema-titulo {
+    color: #FFFFFF;
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .tema-desc {
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 13px;
+  }
   
   .scroll-area::-webkit-scrollbar { width: 6px; }
   .scroll-area::-webkit-scrollbar-track { background: var(--surface-2); border-radius: 10px; }
@@ -97,7 +142,6 @@
       <div class="welcome-box">
         Bienvenido al módulo aeronáutico. Aquí aprenderemos desde por qué vuela un avión hasta las partes más técnicas y focalizadas de este. La historia de la aviación es una de las más bellas: comenzó con los globos aerostáticos en 1783 y avanzó drásticamente con el primer vuelo a motor de los hermanos Wright en 1903. La necesidad y la curiosidad generan grandes cambios y, con ello, nuevas y mejores tecnologías.
       </div>
-      <div class="canvas3d-container" id="canvasAero"></div>
     </header>
 
     <div class="search-container">
@@ -113,9 +157,11 @@
 
     <section class="content-section">
       <div class="content-body" id="mainContent">
+        
         <div class="temas-container">
           <div class="scroll-area">
             <ul class="lista-temas">
+              
               <li class="tema-item" onclick="cargarContenido('aerodinamica')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l8-2 6-7 2 1-3 6 6 1 2 2-8 1-3 6-2-1 1-5-6-1z"/></svg>
@@ -125,6 +171,7 @@
                   <p class="tema-desc">Conceptos fundamentales y fuerzas del aire</p>
                 </div>
               </li>
+
               <li class="tema-item" onclick="cargarContenido('motores')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
@@ -134,6 +181,7 @@
                   <p class="tema-desc">Conceptos de empuje y turbinas de gas</p>
                 </div>
               </li>
+
               <li class="tema-item" onclick="cargarContenido('prop')">
                 <div class="tema-icono">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
@@ -143,92 +191,138 @@
                   <p class="tema-desc">Que es el empuje, que describe y como influye</p>
                 </div>
               </li>
+
+              <li class="tema-item">
+                <div class="tema-icono">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div class="tema-info">
+                  <h4 class="tema-titulo">Estabilidad y Control</h4>
+                  <p class="tema-desc">Ejes de movimiento y superficies de control</p>
+                </div>
+              </li>
+              
             </ul>
           </div>
         </div>
+
       </div>
     </section>
   </div>
 
-<!-- Three.js Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  // Inicializar animación 3D de Turbina Real
-  const containerAero = document.getElementById('canvasAero');
-  if (containerAero) {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, containerAero.clientWidth / containerAero.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(containerAero.clientWidth, containerAero.clientHeight);
-    containerAero.appendChild(renderer.domElement);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-    const pointLight = new THREE.PointLight(0x2fa8ff, 3, 50);
-    pointLight.position.set(2, 4, 5);
-    scene.add(pointLight);
-
-    const turbineGroup = new THREE.Group();
-    
-    // Cono central de la turbina
-    const cone = new THREE.Mesh(
-      new THREE.ConeGeometry(0.5, 1.4, 16),
-      new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.9, roughness: 0.2 })
-    );
-    cone.rotation.x = Math.PI / 2;
-    turbineGroup.add(cone);
-
-    // Aspas de la turbina
-    const bladesGroup = new THREE.Group();
-    for (let i = 0; i < 6; i++) {
-      const blade = new THREE.Mesh(
-        new THREE.BoxGeometry(1.6, 0.15, 0.02),
-        new THREE.MeshStandardMaterial({ color: 0x2fa8ff, metalness: 0.8, roughness: 0.3 })
-      );
-      blade.rotation.z = (Math.PI / 3) * i;
-      bladesGroup.add(blade);
-    }
-    turbineGroup.add(bladesGroup);
-
-    scene.add(turbineGroup);
-    camera.position.z = 4.2;
-
-    function animateAero() {
-      requestAnimationFrame(animateAero);
-      bladesGroup.rotation.z += 0.08; // Giro rápido de aspas
-      turbineGroup.rotation.y += 0.005; // Ligera rotación del conjunto
-      renderer.render(scene, camera);
-    }
-    animateAero();
-  }
-
-  let temaActualActivo = null;
-  function setMode(mode) { 
-    document.body.dataset.mode = mode; 
-    if (temaActualActivo) cargarContenido(temaActualActivo);
-  }
+  function setMode(mode) { document.body.dataset.mode = mode; }
   const CURRENT_MODULE = 'aeronautico';
+
   const contenidoTemas = {
     motores: {
-      explorador: `<h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción</h2><p>Un motor a reacción funciona bajo la tercera ley de Newton (acción y reacción). Toma aire del exterior a gran velocidad, lo comprime, lo mezcla con combustible y lo expulsa con fuerza.</p>`,
-      ingeniero: `<h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción (Análisis Técnico)</h2><p>El ciclo termodinámico ideal que rige a los turborreactores es el <strong>Ciclo Brayton</strong>. Análisis del empuje neto mediante la ecuación fundamental:</p><p style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin-top: 10px;">Fn = m_dot * (ve - v0) + Ae * (pe - p0)</p>`
+      explorador: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción</h2>
+        <p>Un motor a reacción funciona bajo la tercera ley de Newton (acción y reacción). Toma aire del exterior a gran velocidad, lo comprime, lo mezcla con combustible, lo enciende provocando una explosión controlada y lo expulsa con mucha fuerza por la parte trasera, impulsando el avión hacia adelante.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Motores a Reacción (Análisis Técnico)</h2>
+        <p>El ciclo termodinámico ideal que rige a los turborreactores es el <strong>Ciclo Brayton</strong>. El análisis del empuje neto se formula mediante la siguiente ecuación fundamental:</p>
+        <p style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin-top: 10px;">
+          Fn = m_dot * (ve - v0) + Ae * (pe - p0)
+        </p>
+        <p style="margin-top: 10px;">Donde m_dot representa el flujo másico, ve la velocidad de escape y pe la presión estática en la salida de la tobera.</p>
+      `
     },
-    prop: {
-      explorador: `<h2 style="color: var(--aero); margin-bottom: 15px;">Propulsión y Empuje</h2><p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama empuje.</p>`,
-      ingeniero: `<h2 style="color: var(--aero); margin-bottom: 15px;">Propulsión y Empuje (Análisis Técnico)</h2><p>Fuerza de reacción descrita cuantitativamente por la tercera ley de Newton incluyendo flujo másico.</p>`
+   prop: {
+      explorador: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Propulsion y empuje</h2>
+        <p>Imagina que estás en una patineta y tienes muchos globos llenos de aire. Si aprietas un globo y el aire sale disparado hacia atrás, tú y la patineta se mueven hacia adelante. Eso es la idea principal de la propulsión.</p>
+        <p>La propulsión es la manera de hacer que algo se mueva usando una fuerza. En un avión, esa fuerza se llama empuje. Un motor de avión toma aire de delante, lo aprieta y lo acelera para expulsarlo muy rápido hacia atrás. Como respuesta, el avión recibe un “empujón” hacia adelante.</p>
+        <p>Ese empujón es el empuje. Esto sucede por las leyes de Newton:</p>
+        <p><strong>Tercera ley de Newton:</strong> “Para cada acción hay una reacción igual y opuesta.” Si el motor empuja aire hacia atrás, el aire “empuja” al motor —y al avión— hacia adelante.</p>
+        <p><strong>Segunda ley de Newton:</strong> Cuanto más aceleres una masa, mayor fuerza puedes producir. Es decir: si el motor hace salir mucho aire, o lo hace salir mucho más rápido, el empuje aumenta.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Propulsion y empuje</h2>
+        <p><strong>Propulsión:</strong> Proceso de generar una fuerza F para mover un objeto a través de un medio, generalmente mediante la aceleración de una masa (de aire o gases) expulsada a alta velocidad.</p>
+        <p>La propulsión se refiere al uso de motores para crear el empuje que desplaza la aeronave.</p>
+        <p><strong>Empuje:</strong> Fuerza de reacción descrita cuantitativamente por la tercera ley de Newton. En los aviones el empuje se genera por la aplicación de las leyes de Newton, usualmente la 2a y 3a ley de Newton, es decir: un gas o un fluido es acelerado a través del motor y la reacción a esta masa acelerada produce una fuerza sobre el mismo.</p>
+        <p>De aquí desprendemos dos términos: <strong>Reacción y Energía</strong>.</p>
+        <p><strong>Reacción:</strong> Todos los sistemas de propulsión en aviación se basan en el principio de reacción del flujo de aire que pasa a través de un motor o bien en la aceleración de un flujo de aire a través del motor.</p>
+        
+        <h2 style="color: var(--aero); margin-bottom: 15px; margin-top: 20px;">Ecuación General de Empuje (Análisis Técnico)</h2>
+        <p><strong>Fuerza:</strong> Cambio en el momentum con el tiempo.</p>
+        <p>Momentum: Pasar de velocidad 0 a velocidad x (Transición de estado estacionario a dinámico).</p>
+        
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0;">
+          Momentum: m &times; v &rarr; F = M (dv/dt) = ma
+        </div>
+
+        <p>Desarrollo analítico para el volumen de control:</p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+          F = (m&middot;v<sub>2</sub> - m&middot;v<sub>1</sub>) / (t<sub>2</sub> - t<sub>1</sub>) &rarr; <strong>F = m&#775;<sub>9</sub>V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub></strong>
+        </div>
+
+        <p style="margin-top: 15px;"><strong>Propiedades del flujo másico :</strong></p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+          m&#775; = masa / tiempo &nbsp;&nbsp;|&nbsp;&nbsp; m&#775; = &rho; V A &nbsp;&nbsp;|&nbsp;&nbsp; &sum; m&#775;<sub>in</sub> = &sum; m&#775;<sub>out</sub>
+        </div>
+
+        <p><strong>Corrección por diferencia de presiones :</strong></p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.8;">
+          F = m&#775;<sub>9</sub>V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
+        </div>
+
+        <p style="margin-top: 10px; font-size: 13.5px; color: var(--text-dim);">
+          <strong>Nomenclatura:</strong><br>
+          &rho; = Densidad<br>
+          V = Velocidad<br>
+          A = Área
+        </p>
+
+        <p style="margin-top: 15px;"><strong>Ecuación general incluyendo flujo másico de combustible (mf):</strong></p>
+        <div style="font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 14px; border-radius: 8px; margin: 15px 0; color: var(--auto); font-weight: bold;">
+          F = (m&#775;<sub>0</sub> + m&#775;<sub>f</sub>)V<sub>9</sub> - m&#775;<sub>0</sub>V<sub>0</sub> + (p<sub>9</sub> - p<sub>0</sub>)A<sub>9</sub>
+        </div>
+        <p>Algunos aviones como los del tipo comercial (para pasajeros y carga) pasan la</p>
+           mayor cantidad de tiempo en régimen de crucero, por lo que para esta aeronaves el exceso de empuje no es tan importante como la eficiencia del motor y el bajo consumo de combustible.</p>
+           <p>Por otro lado, las aeronaves acrobáticas o militares requieren un gran exceso de empuje para acelerar rápidamente y vencer la resistencia al avance que se presenta a esas velocidades. Para este tipo de aeronaves es mas importante un gran empuje, por eso usan turborreactor o turbofán de baja derivación con</p>
+          <p>postquemador.</p>
+      `
     },
     aerodinamica: {
-      explorador: `<h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental</h2><p>Estudia cómo el aire fluye alrededor de los objetos y cómo las alas generan sustentación.</p>`,
-      ingeniero: `<h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental (Ingeniería)</h2><p>Estudio de los campos de presión y velocidad regidos por las ecuaciones de Navier-Stokes.</p>`
+      explorador: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental</h2>
+        <p>Estudia cómo el aire fluye alrededor de los objetos y cómo las alas de los aviones aprovechan la forma para generar la fuerza de sustentación que los eleva por los cielos.</p>
+      `,
+      ingeniero: `
+        <h2 style="color: var(--aero); margin-bottom: 15px;">Aerodinámica Fundamental (Ingeniería)</h2>
+        <p>Estudio de los campos de presión y velocidad regidos por las ecuaciones de Navier-Stokes, perfiles alares simétricos/asimétricos y el coeficiente de sustentación.</p>
+      `
     }
   };
+let temaActualActivo = null; // Guarda el tema que estás viendo
+
+  function setMode(mode) { 
+    document.body.dataset.mode = mode; 
+    // Si estás leyendo un tema, actualiza el contenido al cambiar de modo en tiempo real
+    if (temaActualActivo) {
+      cargarContenido(temaActualActivo);
+    }
+  }
   function cargarContenido(temaId) {
     temaActualActivo = temaId;
     const mainContent = document.getElementById('mainContent');
+    const modoActual = document.body.dataset.mode;
     const tema = contenidoTemas[temaId];
+
     if (!tema) return;
-    mainContent.innerHTML = `<button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>${tema[document.body.dataset.mode]}`;
+
+    mainContent.innerHTML = `
+      <button onclick="regresarLista()" class="back-btn" style="margin-bottom: 20px;">← Volver a los temas</button>
+      ${tema[modoActual]}
+    `;
   }
-  function regresarLista() { location.reload(); }
+
+  function regresarLista() {
+    location.reload();
+  }
 
   const database = [
     { tema: "Mecánica orbital", modulo: "espacial", desarrollado: true },
@@ -240,35 +334,46 @@
     { tema: "Transmisiones mecánicas", modulo: "automocion", desarrollado: false },
     { tema: "Ciclos termodinámicos", modulo: "ciencias", desarrollado: true },
     { tema: "Ciencia de materiales", modulo: "ciencias", desarrollado: false },
-    { tema: "Propulsion y Empuje", modulo: "aeronautico", desarrollado: true }
+    { tema: "Propulsion y empuje", modulo: "aeronautico", desarrollado: true }
+    
   ];
+
   const searchBox = document.getElementById('searchBox');
   const searchResults = document.getElementById('searchResults');
+
   searchBox.addEventListener('input', () => {
     const query = searchBox.value.toLowerCase().trim();
     searchResults.innerHTML = '';
     if (!query) { searchResults.style.display = 'none'; return; }
+
     const matches = database.filter(item => item.tema.toLowerCase().includes(query));
+
     if (matches.length === 0) {
       searchResults.innerHTML = `<div class="result-item status-info">Este tema aún no se ha desarrollado;0</div>`;
       searchResults.style.display = 'block';
       return;
     }
+
     matches.forEach(item => {
       const div = document.createElement('div');
       div.className = 'result-item';
       if (item.modulo === CURRENT_MODULE) {
-        div.innerHTML = item.desarrollado ? `<span class="status-found">✓ En este módulo:</span> ${item.tema}` : `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
-        if (item.desarrollado) div.onclick = () => { searchResults.style.display = 'none'; };
+        if (item.desarrollado) {
+          div.innerHTML = `<span class="status-found">✓ En este módulo:</span> ${item.tema}`;
+          div.onclick = () => { searchResults.style.display = 'none'; };
+        } else {
+          div.innerHTML = `<span class="status-info">⚠ En este módulo:</span> ${item.tema} (Este tema aún no se ha desarrollado;0)`;
+        }
       } else {
-        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema}`;
+        div.innerHTML = `<span class="status-info">➔ Disponible en Módulo ${item.modulo.toUpperCase()}:</span> ${item.tema} (Regresa e ingresa al módulo correcto)`;
       }
       searchResults.appendChild(div);
     });
     searchResults.style.display = 'block';
   });
+
   document.addEventListener('click', (e) => {
-    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none';
+    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) { searchResults.style.display = 'none'; }
   });
 </script>
 </body>
